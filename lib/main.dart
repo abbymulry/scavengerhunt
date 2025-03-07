@@ -47,13 +47,13 @@ class HomeScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 30), // More spacing for better alignment
+            const SizedBox(height: 30),
 
-            // Row containing two images on the left, buttons in the center, and two images on the right
+            // Row layout
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Left-side images
+                // Left images
                 Column(
                   children: [
                     Image.asset('assets/pft.png', width: 300, height: 300),
@@ -62,9 +62,9 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(width: 100), // Space between images and buttons
+                const SizedBox(width: 100),
 
-                // Buttons in the center
+                // Buttons
                 Column(
                   children: [
                     ElevatedButton(
@@ -75,44 +75,24 @@ class HomeScreen extends StatelessWidget {
                               builder: (context) => const FirstFloorScreen()),
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 15),
-                        textStyle: const TextStyle(fontSize: 18),
-                      ),
                       child: const Text("Explore 1st Floor"),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: () {
-                        // TODO: Navigate to the 2nd floor screen
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 15),
-                        textStyle: const TextStyle(fontSize: 18),
-                      ),
+                      onPressed: () {},
                       child: const Text("Explore 2nd Floor"),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: () {
-                        // TODO: Navigate to the 3rd floor screen
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 15),
-                        textStyle: const TextStyle(fontSize: 18),
-                      ),
+                      onPressed: () {},
                       child: const Text("Explore 3rd Floor"),
                     ),
                   ],
                 ),
 
-                const SizedBox(
-                    width: 30), // Space between buttons and right images
+                const SizedBox(width: 30),
 
-                // Right-side images
+                // Right images
                 Column(
                   children: [
                     Image.asset('assets/pft2.png', width: 300, height: 300),
@@ -129,7 +109,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// First Floor Screen
+// First Floor Main Screen
 class FirstFloorScreen extends StatelessWidget {
   const FirstFloorScreen({super.key});
 
@@ -144,7 +124,6 @@ class FirstFloorScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Buttons Column
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -154,61 +133,161 @@ class FirstFloorScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // TODO: Navigate to Panera section
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    textStyle: const TextStyle(fontSize: 18),
-                  ),
-                  child: const Text("Panera"),
-                ),
-                const SizedBox(height: 15),
-                ElevatedButton(
-                  onPressed: () {
-                    // TODO: Navigate to Center for Engineering Education
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    textStyle: const TextStyle(fontSize: 18),
-                  ),
-                  child: const Text("Center for Engineering Education"),
-                ),
-                const SizedBox(height: 15),
-                ElevatedButton(
-                  onPressed: () {
-                    // TODO: Navigate to Auditoriums section
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    textStyle: const TextStyle(fontSize: 18),
-                  ),
-                  child: const Text("Auditoriums"),
-                ),
-                const SizedBox(height: 15),
-                ElevatedButton(
-                  onPressed: () {
-                    // TODO: Navigate to Cambre Atrium
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    textStyle: const TextStyle(fontSize: 18),
-                  ),
-                  child: const Text("Cambre Atrium"),
-                ),
+                // Buttons linking to 11 new screens
+                buildNavButton(context, "Restaurant", const RestaurantScreen()),
+                buildNavButton(context, "Center for Engineering Education",
+                    const CenterForEngineeringEducationScreen()),
+                buildNavButton(
+                    context, "Auditoriums", const AuditoriumsScreen()),
+                buildNavButton(
+                    context, "Cambre Atrium", const CambreAtriumScreen()),
+                buildNavButton(context, "1200", const Room1200Screen()),
+                buildNavButton(context, "1202", const Room1202Screen()),
+                buildNavButton(context, "Sustainable Living Lab",
+                    const SustainableLivingLabScreen()),
+                buildNavButton(
+                    context, "Zone 1100 Part 1", const Zone1100Part1Screen()),
+                buildNavButton(
+                    context, "Zone 1100 Part 2", const Zone1100Part2Screen()),
+                buildNavButton(
+                    context, "1220s and Bathroom", const Room1220sScreen()),
+                buildNavButton(context, "The Commons", const CommonsScreen()),
               ],
             ),
-            const SizedBox(width: 50), // Space between buttons and image
-            // Right-side Image
+            const SizedBox(width: 50),
             Image.asset('assets/pft1st.png', width: 700, height: 700),
           ],
         ),
       ),
     );
+  }
+
+  // Helper method for buttons
+  Widget buildNavButton(BuildContext context, String title, Widget screen) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => screen));
+        },
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+          textStyle: const TextStyle(fontSize: 18),
+        ),
+        child: Text(title),
+      ),
+    );
+  }
+}
+
+// Template for all 11 pages
+class GenericScreen extends StatelessWidget {
+  final String title;
+  const GenericScreen({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Text(
+          "Welcome to $title",
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+// Creating each of the 11 screens
+class RestaurantScreen extends StatelessWidget {
+  const RestaurantScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Restaurant");
+  }
+}
+
+class CenterForEngineeringEducationScreen extends StatelessWidget {
+  const CenterForEngineeringEducationScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Center for Engineering Education");
+  }
+}
+
+class AuditoriumsScreen extends StatelessWidget {
+  const AuditoriumsScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Auditoriums");
+  }
+}
+
+class CambreAtriumScreen extends StatelessWidget {
+  const CambreAtriumScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Cambre Atrium");
+  }
+}
+
+class Room1200Screen extends StatelessWidget {
+  const Room1200Screen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Room 1200");
+  }
+}
+
+class Room1202Screen extends StatelessWidget {
+  const Room1202Screen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Room 1202");
+  }
+}
+
+class SustainableLivingLabScreen extends StatelessWidget {
+  const SustainableLivingLabScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Sustainable Living Lab");
+  }
+}
+
+class Zone1100Part1Screen extends StatelessWidget {
+  const Zone1100Part1Screen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Zone 1100 Part 1");
+  }
+}
+
+class Zone1100Part2Screen extends StatelessWidget {
+  const Zone1100Part2Screen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "Zone 1100 Part 2");
+  }
+}
+
+class Room1220sScreen extends StatelessWidget {
+  const Room1220sScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "1220s and Bathroom");
+  }
+}
+
+class CommonsScreen extends StatelessWidget {
+  const CommonsScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const GenericScreen(title: "The Commons");
   }
 }
