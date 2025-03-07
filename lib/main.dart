@@ -182,6 +182,100 @@ class FirstFloorScreen extends StatelessWidget {
   }
 }
 
+class SecondFloorScreen extends StatelessWidget {
+  const SecondFloorScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Welcome to the Second Floor!",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Return to Home"),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ThirdFloorScreen extends StatelessWidget {
+  const ThirdFloorScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Third Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Welcome to the Third Floor!",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Return to Home"),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 // Template for all 11 pages
 class GenericScreen extends StatelessWidget {
   final String title;
@@ -210,7 +304,7 @@ class GenericScreen extends StatelessWidget {
                 alignment: _getAlignment(entry.key),
                 child: entry.value,
               );
-            }).toList(),
+            }),
         ],
       ),
     );
@@ -279,6 +373,59 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     prefs.setBool("restaurant_answered", true);
   }
 
+  // Check if all questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "B") {
       setState(() {
@@ -290,6 +437,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         _isCorrect = true;
         _message = "Correct! Here's some history about Panera.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -396,6 +545,7 @@ class _CenterForEngineeringEducationScreenState
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("center_engineering_answered");
@@ -408,22 +558,79 @@ class _CenterForEngineeringEducationScreenState
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("center_engineering_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "CHEVRON") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about Chevron.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -494,6 +701,7 @@ class _CenterForEngineeringEducationScreenState
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const CommonsScreen()),
@@ -527,6 +735,7 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("auditoriums_answered");
@@ -539,22 +748,79 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("auditoriums_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "TV") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about TV news.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -625,6 +891,7 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const Zone1100Part1Screen()),
@@ -662,6 +929,7 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("cambre_atrium_answered");
@@ -674,22 +942,79 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("cambre_atrium_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim() == "5") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about the Cambre Atrium.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -761,6 +1086,7 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const SustainableLivingLabScreen()),
@@ -794,6 +1120,7 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("room1200_answered");
@@ -806,22 +1133,79 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1200_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "RENE") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about Rene.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -892,6 +1276,7 @@ class _Room1200ScreenState extends State<Room1200Screen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const Room1202Screen()),
@@ -925,6 +1310,7 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("room1202_answered");
@@ -937,22 +1323,79 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1202_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "FAVRE") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about Favre.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -1023,9 +1466,10 @@ class _Room1202ScreenState extends State<Room1202Screen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
-            alignment: Alignment.topCenter,
-            child: NavButton(context, "⬆️", const Zone1100Part1Screen()),
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const Room1200Screen()),
           ),
           Align(
             alignment: Alignment.centerLeft,
@@ -1037,8 +1481,8 @@ class _Room1202ScreenState extends State<Room1202Screen> {
                 context, "➡️", const CenterForEngineeringEducationScreen()),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
-            child: NavButton(context, "⬇️", const Room1200Screen()),
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const Zone1100Part1Screen()),
           ),
         ],
       ),
@@ -1067,6 +1511,7 @@ class _SustainableLivingLabScreenState
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("sustainable_lab_answered");
@@ -1079,22 +1524,79 @@ class _SustainableLivingLabScreenState
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("sustainable_lab_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "BASF") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about BASF.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -1165,6 +1667,7 @@ class _SustainableLivingLabScreenState
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const CambreAtriumScreen()),
@@ -1198,34 +1701,92 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? answered = prefs.getBool("zone1100part1_answered");
+    bool? answered = prefs.getBool("zone1100_part1_answered");
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about vending machines.";
+        _message = "Correct! Here's some history about vending.";
         _alreadyAnswered = true;
       });
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("zone1100part1_answered", true);
+    prefs.setBool("zone1100_part1_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "VENDING") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
-        _message = "Correct! Here's some history about vending machines.";
+        _message = "Correct! Here's some history about vending.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -1283,7 +1844,7 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
                   Image.asset('assets/1101pt1.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of Vending Machines",
+                    "The History of Vending",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -1296,6 +1857,7 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const Zone1100Part2Screen()),
@@ -1333,34 +1895,92 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? answered = prefs.getBool("zone1100part2_answered");
+    bool? answered = prefs.getBool("zone1100_part2_answered");
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about googly eyes.";
+        _message = "Correct! Here's some history about the googly eyes.";
         _alreadyAnswered = true;
       });
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("zone1100part2_answered", true);
+    prefs.setBool("zone1100_part2_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "GOOGLY") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
-        _message = "Correct! Here's some history about googly eyes.";
+        _message = "Correct! Here's some history about the googly eyes.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -1418,7 +2038,7 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
                   Image.asset('assets/1101pt2.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of Googly Eyes",
+                    "The History of the Googly Eyes",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -1431,6 +2051,7 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const CambreAtriumScreen()),
@@ -1464,6 +2085,7 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("room1220s_answered");
@@ -1476,22 +2098,79 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1220s_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "CAPSTONE GALLERY") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about the Capstone Gallery.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -1562,6 +2241,7 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
             child: NavButton(context, "⬅️", const SustainableLivingLabScreen()),
@@ -1595,6 +2275,7 @@ class _CommonsScreenState extends State<CommonsScreen> {
     _loadAnswerState();
   }
 
+  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("commons_answered");
@@ -1607,22 +2288,79 @@ class _CommonsScreenState extends State<CommonsScreen> {
     }
   }
 
+  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("commons_answered", true);
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "TAU BETA PI") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++;
+          FirstFloorProgress.questionsAnswered++; // Increment only once
           _alreadyAnswered = true;
-          _saveAnswerState();
+          _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
         _message = "Correct! Here's some history about Tau Beta Pi.";
       });
+
+      _checkCompletion(); // Check if all 11 questions are answered
     } else {
       setState(() {
         _isCorrect = false;
@@ -1693,6 +2431,7 @@ class _CommonsScreenState extends State<CommonsScreen> {
               ],
             ),
           ),
+          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const RestaurantScreen()),
@@ -1718,4 +2457,15 @@ Widget NavButton(BuildContext context, String arrow, Widget screen) {
 
 class FirstFloorProgress {
   static int questionsAnswered = 0;
+  static const int totalQuestions = 11;
+
+  static bool isCompleted() {
+    return questionsAnswered >= totalQuestions;
+  }
+
+  static void resetProgress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    questionsAnswered = 0;
+    await prefs.clear(); // Clears all saved answers
+  }
 }
