@@ -184,7 +184,9 @@ class FirstFloorScreen extends StatelessWidget {
 // Template for all 11 pages
 class GenericScreen extends StatelessWidget {
   final String title;
-  const GenericScreen({super.key, required this.title});
+  final List<Widget>? buttons; // Accepts navigation buttons
+
+  const GenericScreen({super.key, required this.title, this.buttons});
 
   @override
   Widget build(BuildContext context) {
@@ -194,9 +196,16 @@ class GenericScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
       ),
       body: Center(
-        child: Text(
-          "Welcome to $title",
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Welcome to $title",
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            if (buttons != null) ...buttons!,
+          ],
         ),
       ),
     );
@@ -222,33 +231,77 @@ class CenterForEngineeringEducationScreen extends StatelessWidget {
 
 class AuditoriumsScreen extends StatelessWidget {
   const AuditoriumsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const GenericScreen(title: "Auditoriums");
+    return GenericScreen(
+      title: "Auditoriums",
+      buttons: [
+        NavButton(context, "➡️", const Room1200Screen()),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            NavButton(context, "↗️", const Room1202Screen()),
+            NavButton(context, "⬆️", const Zone1100Part1Screen()),
+          ],
+        ),
+      ],
+    );
   }
 }
 
 class CambreAtriumScreen extends StatelessWidget {
   const CambreAtriumScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const GenericScreen(title: "Cambre Atrium");
+    return GenericScreen(
+      title: "Cambre Atrium",
+      buttons: [
+        NavButton(context, "⬆️",
+            const SustainableLivingLabScreen()), // Up to Sustainable Living Lab
+        NavButton(context, "⬇️",
+            const Zone1100Part2Screen()), // Down to Zone 1100 Part 2
+      ],
+    );
   }
 }
 
 class Room1200Screen extends StatelessWidget {
   const Room1200Screen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const GenericScreen(title: "Room 1200");
+    return GenericScreen(
+      title: "Room 1200",
+      buttons: [
+        NavButton(context, "⬆️", const Room1202Screen()),
+        NavButton(context, "⬅️", const AuditoriumsScreen()),
+      ],
+    );
   }
 }
 
 class Room1202Screen extends StatelessWidget {
   const Room1202Screen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const GenericScreen(title: "Room 1202");
+    return GenericScreen(
+      title: "Room 1202",
+      buttons: [
+        NavButton(context, "⬆️", const Zone1100Part1Screen()),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            NavButton(context, "⬅️", const AuditoriumsScreen()),
+            NavButton(
+                context, "➡️", const CenterForEngineeringEducationScreen()),
+          ],
+        ),
+        NavButton(context, "⬇️", const Room1200Screen()),
+      ],
+    );
   }
 }
 
@@ -262,17 +315,40 @@ class SustainableLivingLabScreen extends StatelessWidget {
 
 class Zone1100Part1Screen extends StatelessWidget {
   const Zone1100Part1Screen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const GenericScreen(title: "Zone 1100 Part 1");
+    return GenericScreen(
+      title: "Zone 1100 Part 1",
+      buttons: [
+        NavButton(context, "⬆️", const Zone1100Part2Screen()), // Up to Part 2
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            NavButton(context, "⬇️ Left",
+                const AuditoriumsScreen()), // Down left to Auditoriums
+            NavButton(context, "⬇️ Right",
+                const Room1202Screen()), // Down right to 1202
+          ],
+        ),
+      ],
+    );
   }
 }
 
 class Zone1100Part2Screen extends StatelessWidget {
   const Zone1100Part2Screen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const GenericScreen(title: "Zone 1100 Part 2");
+    return GenericScreen(
+      title: "Zone 1100 Part 2",
+      buttons: [
+        NavButton(
+            context, "⬆️", const CambreAtriumScreen()), // Up to Cambre Atrium
+        NavButton(context, "⬇️", const Zone1100Part1Screen()), // Down to Part 1
+      ],
+    );
   }
 }
 
@@ -290,4 +366,12 @@ class CommonsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GenericScreen(title: "The Commons");
   }
+}
+
+Widget NavButton(BuildContext context, String arrow, Widget screen) {
+  return ElevatedButton(
+    onPressed: () => Navigator.push(
+        context, MaterialPageRoute(builder: (context) => screen)),
+    child: Text(arrow, style: const TextStyle(fontSize: 30)),
+  );
 }
