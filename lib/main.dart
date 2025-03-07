@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -240,173 +241,1469 @@ class GenericScreen extends StatelessWidget {
 }
 
 // Creating each of the 11 screens
-class RestaurantScreen extends StatelessWidget {
+class RestaurantScreen extends StatefulWidget {
   const RestaurantScreen({super.key});
 
   @override
+  _RestaurantScreenState createState() => _RestaurantScreenState();
+}
+
+class _RestaurantScreenState extends State<RestaurantScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  // Load answer state from SharedPreferences
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("restaurant_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Panera.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  // Save answer state to SharedPreferences
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("restaurant_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "B") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Panera.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Restaurant",
-      buttons: {
-        "left": NavButton(context, "⬅️", const Room1220sScreen()),
-        "bottom": NavButton(context, "⬇️", const CommonsScreen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Restaurant"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What is the 7th letter of the restaurant that you are now approaching?\n(Hint: It is the first letter of the 2nd word).",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/panera.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of Panera",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Restore Arrows
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const Room1220sScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const CommonsScreen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class CenterForEngineeringEducationScreen extends StatelessWidget {
+class CenterForEngineeringEducationScreen extends StatefulWidget {
   const CenterForEngineeringEducationScreen({super.key});
 
   @override
+  _CenterForEngineeringEducationScreenState createState() =>
+      _CenterForEngineeringEducationScreenState();
+}
+
+class _CenterForEngineeringEducationScreenState
+    extends State<CenterForEngineeringEducationScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("center_engineering_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Chevron.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("center_engineering_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "CHEVRON") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Chevron.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Center for Engineering Education",
-      buttons: {
-        "top": NavButton(context, "⬆️", const CommonsScreen()),
-        "left": NavButton(context, "⬅️", const Room1202Screen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Center for Engineering Education"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Who is the sponsor for the center for engineering education, which is located in PFT 1269?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/chev.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of Chevron",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const CommonsScreen()),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const Room1202Screen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class AuditoriumsScreen extends StatelessWidget {
+class AuditoriumsScreen extends StatefulWidget {
   const AuditoriumsScreen({super.key});
 
   @override
+  _AuditoriumsScreenState createState() => _AuditoriumsScreenState();
+}
+
+class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("auditoriums_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about TV news.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("auditoriums_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "TV") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about TV news.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Auditoriums",
-      buttons: {
-        "right": NavButton(context, "➡️", const Room1200Screen()),
-        "top": NavButton(context, "⬆️", const Zone1100Part1Screen()),
-        "topRight": NavButton(context, "↗️", const Room1202Screen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Auditoriums"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "On the wall on the left of the big auditorium, how can you get news on current events? (Hint: this should be two letters)",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/audit.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of TV News",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const Zone1100Part1Screen()),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: NavButton(context, "➡️", const Room1200Screen()),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: NavButton(context, "↗️", const Room1202Screen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class CambreAtriumScreen extends StatelessWidget {
+class CambreAtriumScreen extends StatefulWidget {
   const CambreAtriumScreen({super.key});
 
   @override
+  _CambreAtriumScreenState createState() => _CambreAtriumScreenState();
+}
+
+class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("cambre_atrium_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about the Cambre Atrium.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("cambre_atrium_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim() == "5") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about the Cambre Atrium.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Cambre Atrium",
-      buttons: {
-        "top": NavButton(context, "⬆️", const SustainableLivingLabScreen()),
-        "bottom": NavButton(context, "⬇️", const Zone1100Part2Screen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Cambre Atrium"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "How many tables are there in the Cambre Atrium for studying?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/cambre.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of the Cambre Atrium",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const SustainableLivingLabScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const Zone1100Part2Screen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class Room1200Screen extends StatelessWidget {
+class Room1200Screen extends StatefulWidget {
   const Room1200Screen({super.key});
 
   @override
+  _Room1200ScreenState createState() => _Room1200ScreenState();
+}
+
+class _Room1200ScreenState extends State<Room1200Screen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("room1200_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Rene.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("room1200_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "RENE") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Rene.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Room 1200",
-      buttons: {
-        "top": NavButton(context, "⬆️", const Room1202Screen()),
-        "left": NavButton(context, "⬅️", const AuditoriumsScreen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Room 1200"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What is the first name on the purple plaque that is right outside of room 1200?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/1200.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of Rene",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const Room1202Screen()),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const AuditoriumsScreen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class Room1202Screen extends StatelessWidget {
+class Room1202Screen extends StatefulWidget {
   const Room1202Screen({super.key});
 
   @override
+  _Room1202ScreenState createState() => _Room1202ScreenState();
+}
+
+class _Room1202ScreenState extends State<Room1202Screen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("room1202_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Favre.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("room1202_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "FAVRE") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Favre.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Room 1202",
-      buttons: {
-        "top": NavButton(context, "⬆️", const Zone1100Part1Screen()),
-        "left": NavButton(context, "⬅️", const AuditoriumsScreen()),
-        "right": NavButton(
-            context, "➡️", const CenterForEngineeringEducationScreen()),
-        "bottom": NavButton(context, "⬇️", const Room1200Screen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Room 1202"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "There is a wall of names outside of Room 1202. What is the last name of the person in the top left gold plate?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/1202.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of Favre",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const Zone1100Part1Screen()),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const AuditoriumsScreen()),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: NavButton(
+                context, "➡️", const CenterForEngineeringEducationScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const Room1200Screen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class SustainableLivingLabScreen extends StatelessWidget {
+class SustainableLivingLabScreen extends StatefulWidget {
   const SustainableLivingLabScreen({super.key});
 
   @override
+  _SustainableLivingLabScreenState createState() =>
+      _SustainableLivingLabScreenState();
+}
+
+class _SustainableLivingLabScreenState
+    extends State<SustainableLivingLabScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("sustainable_lab_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about BASF.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("sustainable_lab_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "BASF") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about BASF.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Sustainable Living Lab",
-      buttons: {
-        "bottom": NavButton(context, "⬇️", const CambreAtriumScreen()),
-        "right": NavButton(context, "➡️", const Room1220sScreen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Sustainable Living Lab"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Which company sponsors this lab?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/BASF.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of BASF",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const CambreAtriumScreen()),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: NavButton(context, "➡️", const Room1220sScreen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class Zone1100Part1Screen extends StatelessWidget {
+class Zone1100Part1Screen extends StatefulWidget {
   const Zone1100Part1Screen({super.key});
 
   @override
+  _Zone1100Part1ScreenState createState() => _Zone1100Part1ScreenState();
+}
+
+class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("zone1100part1_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about vending machines.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("zone1100part1_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "VENDING") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about vending machines.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Zone 1100 Part 1",
-      buttons: {
-        "top": NavButton(context, "⬆️", const Zone1100Part2Screen()),
-        "bottomLeft": NavButton(context, "↙️", const AuditoriumsScreen()),
-        "bottomRight": NavButton(context, "↘️", const Room1202Screen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Zone 1100 Part 1"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Moving up from the previous auditorium and rooms, there is a Zone 1100 sign on the left. What is the word below 1114-1154?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/1101pt1.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of Vending Machines",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const Zone1100Part2Screen()),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: NavButton(context, "↙️", const AuditoriumsScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: NavButton(context, "↘️", const Room1202Screen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class Zone1100Part2Screen extends StatelessWidget {
+class Zone1100Part2Screen extends StatefulWidget {
   const Zone1100Part2Screen({super.key});
 
   @override
+  _Zone1100Part2ScreenState createState() => _Zone1100Part2ScreenState();
+}
+
+class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("zone1100part2_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about googly eyes.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("zone1100part2_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "GOOGLY") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about googly eyes.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "Zone 1100 Part 2",
-      buttons: {
-        "top": NavButton(context, "⬆️", const CambreAtriumScreen()),
-        "bottom": NavButton(context, "⬇️", const Zone1100Part1Screen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Zone 1100 Part 2"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Moving up from the first sign there is another one, this one has something unique about it? (Hint: _____ eyes)",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/1101pt2.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of Googly Eyes",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const CambreAtriumScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const Zone1100Part1Screen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class Room1220sScreen extends StatelessWidget {
+class Room1220sScreen extends StatefulWidget {
   const Room1220sScreen({super.key});
 
   @override
+  _Room1220sScreenState createState() => _Room1220sScreenState();
+}
+
+class _Room1220sScreenState extends State<Room1220sScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("room1220s_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about the Capstone Gallery.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("room1220s_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "CAPSTONE GALLERY") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about the Capstone Gallery.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "1220s and Bathroom",
-      buttons: {
-        "left": NavButton(context, "⬅️", const SustainableLivingLabScreen()),
-        "right": NavButton(context, "➡️", const RestaurantScreen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("1220s and Bathroom"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Right before you get to the bathroom, there is a sign above your head. What is the location at the bottom left of the sign? (Hint: two words)",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/bathroom.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of the Capstone Gallery",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const SustainableLivingLabScreen()),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: NavButton(context, "➡️", const RestaurantScreen()),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class CommonsScreen extends StatelessWidget {
+class CommonsScreen extends StatefulWidget {
   const CommonsScreen({super.key});
 
   @override
+  _CommonsScreenState createState() => _CommonsScreenState();
+}
+
+class _CommonsScreenState extends State<CommonsScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("commons_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Tau Beta Pi.";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("commons_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "TAU BETA PI") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct! Here's some history about Tau Beta Pi.";
+      });
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GenericScreen(
-      title: "The Commons",
-      buttons: {
-        "top": NavButton(context, "⬆️", const RestaurantScreen()),
-        "bottom": NavButton(
-            context, "⬇️", const CenterForEngineeringEducationScreen()),
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Commons"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "There is a plaque on a statue in the common area between the two sets of stairs. What is the name of the honor society on the plaque?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/commons.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The History of Tau Beta Pi",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const RestaurantScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(
+                context, "⬇️", const CenterForEngineeringEducationScreen()),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -417,4 +1714,8 @@ Widget NavButton(BuildContext context, String arrow, Widget screen) {
     onPressed: () => Navigator.push(
         context, MaterialPageRoute(builder: (context) => screen)),
   );
+}
+
+class FirstFloorProgress {
+  static int questionsAnswered = 0;
 }
