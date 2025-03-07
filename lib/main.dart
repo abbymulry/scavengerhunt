@@ -62,15 +62,18 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(
-                    width: 100), // Increased space between images and buttons
+                const SizedBox(width: 100), // Space between images and buttons
 
                 // Buttons in the center
                 Column(
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // TODO: Navigate to the 1st floor screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FirstFloorScreen()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -107,8 +110,7 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(
-                    width:
-                        30), // Increased space between buttons and right images
+                    width: 30), // Space between buttons and right images
 
                 // Right-side images
                 Column(
@@ -120,6 +122,90 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// First Floor Screen
+class FirstFloorScreen extends StatelessWidget {
+  const FirstFloorScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("First Floor Main Screen"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Buttons Column
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Choose your starting point",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Navigate to Panera section
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
+                    textStyle: const TextStyle(fontSize: 18),
+                  ),
+                  child: const Text("Panera"),
+                ),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Navigate to Center for Engineering Education
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
+                    textStyle: const TextStyle(fontSize: 18),
+                  ),
+                  child: const Text("Center for Engineering Education"),
+                ),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Navigate to Auditoriums section
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
+                    textStyle: const TextStyle(fontSize: 18),
+                  ),
+                  child: const Text("Auditoriums"),
+                ),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Navigate to Cambre Atrium
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
+                    textStyle: const TextStyle(fontSize: 18),
+                  ),
+                  child: const Text("Cambre Atrium"),
+                ),
+              ],
+            ),
+            const SizedBox(width: 50), // Space between buttons and image
+            // Right-side Image
+            Image.asset('assets/pft1st.png', width: 700, height: 700),
           ],
         ),
       ),
