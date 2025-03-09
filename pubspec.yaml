@@ -72,6 +72,13 @@ flutter:
    - assets/BASF.png
    - assets/bathroom.png
    - assets/secondfloorlayout.jpg
+   - assets/bimlab.jpg
+   - assets/protolab.jpg
+   - assets/drillingfluidlab.jpg
+   - assets/drivingsimulator.jpg
+   - assets/brookshire.jpg
+   - assets/startingpointfloortwo.jpg
+   - assets/wrongway.jpg
 
 
   # The following line ensures that the Material Icons font is
