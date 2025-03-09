@@ -84,12 +84,8 @@ class HomeScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-<<<<<<< HEAD
-                              builder: (context) => const SecondFloorScreen()),
-=======
                               builder: (context) =>
                                   const SecondFloorScreen()), // Update when SecondFloorScreen is ready
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
                         );
                       },
                       child: const Text("Explore 2nd Floor"),
@@ -211,31 +207,34 @@ class SecondFloorScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
       ),
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/secondfloorlayout.png', width: 700, height: 700),
-                const Text(
-                  "This tour will begin at the top of the large stair case looking over the capstone gallery",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                Text('You will explore the layout of the second floor, and get some background of some of the frequenlty used facilties'),
-                Text('When you are ready to begin the tour, press the button below.'),
-                ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DirectionsToBimLabScreen()),
-                        );
-                      },
-                      child: const Text("Begin the tour"),
-                    ),
-              ],
+            const Text(
+              "Welcome to the Second Floor!",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Return to Home"),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
             ),
           ],
         ),
@@ -251,50 +250,47 @@ class ThirdFloorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Third Floor Main Screen"),
+        title: const Text("Third Floor"),
         backgroundColor: Colors.deepPurple,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Choose your destination on the Third Floor",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            // Welcome Message
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Text(
+                "Welcome to the 3rd Floor! We are not going to make you follow this whole maze, so just find the following places!",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
-            // Buttons for navigating to each section
-            buildNavButton(context, "Alfredo", const AlfredoScreen()),
-            buildNavButton(context, "CEE (Civil & Environmental Engineering)",
+            // Navigation buttons
+            buildNavButton(context, "Alfredo Room", const AlfredoScreen()),
+            buildNavButton(context, "Civil & Environmental Engineering",
                 const CEEScreen()),
-            buildNavButton(context, "MIE (Mechanical & Industrial Engineering)",
+            buildNavButton(context, "Mechanical & Industrial Engineering",
                 const MIEScreen()),
             buildNavButton(
-                context, "CM (Construction Management)", const CMScreen()),
-            buildNavButton(
-                context,
-                "EECS (Electrical Engineering & Computer Science)",
+                context, "Construction Management", const CMScreen()),
+            buildNavButton(context, "Electrical Engineering & Computer Science",
                 const EECSScreen()),
-            buildNavButton(
-                context, "ChE (Chemical Engineering)", const ChEScreen()),
+            buildNavButton(context, "Chemical Engineering", const ChEScreen()),
             buildNavButton(context, "Elevators", const ElevatorsScreen()),
-
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Go back to previous screen
-              },
-              child: const Text("Back to Home"),
-            ),
           ],
         ),
       ),
     );
   }
 
-  // Helper method for creating buttons
+  // Helper method for buttons
   Widget buildNavButton(BuildContext context, String title, Widget screen) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -2514,10 +2510,6 @@ class FirstFloorProgress {
   }
 }
 
-<<<<<<< HEAD
-class DirectionsToBimLabScreen extends StatelessWidget {
-  const DirectionsToBimLabScreen({super.key});
-=======
 class AlfredoScreen extends StatefulWidget {
   const AlfredoScreen({super.key});
 
@@ -2555,8 +2547,7 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
-      // Replace with actual answer
+    if (_answerController.text.trim().toUpperCase() == "YES") {
       setState(() {
         if (!_alreadyAnswered) {
           ThirdFloorProgress.questionsAnswered++;
@@ -2608,66 +2599,12 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
       },
     );
   }
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/startingpointfloortwo.jpg', width: 300, height: 300),
-                Text('Starting at the top of the staircase turn right'),
-                Text('When the hallway breaks off into 3 directions, turn left.'),
-                Text('Enter the first door on the left'),
-                Text('What is the room number for that door?'),
-                ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BimLabScreen()),
-                        );
-                      },
-                      child: const Text("2348"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2272"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2147"),
-                    ),
-
-                
-              ],
-            ),
-          ],
-        ),
-=======
-        title: const Text("Alfredo"),
+        title: const Text("Alfredo Room"),
         backgroundColor: Colors.deepPurple,
       ),
       body: Stack(
@@ -2677,7 +2614,7 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "QUESTION GOES HERE?", // Replace with actual question
+                  "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -2711,7 +2648,7 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
                   Image.asset('assets/alfredo.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    "Congratulations you found the Alfredo room. Select the back button to go back to the main 3rd floor screen.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -2727,20 +2664,14 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: NavButton(
-                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+            child: NavButton(context, "⬇️", const ThirdFloorScreen()),
           ),
         ],
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
       ),
     );
   }
 }
 
-<<<<<<< HEAD
-class BimLabScreen extends StatelessWidget {
-  const BimLabScreen({super.key});
-=======
 class CEEScreen extends StatefulWidget {
   const CEEScreen({super.key});
 
@@ -2778,8 +2709,7 @@ class _CEEScreenState extends State<CEEScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
-      // Replace with actual answer
+    if (_answerController.text.trim().toUpperCase() == "YES") {
       setState(() {
         if (!_alreadyAnswered) {
           ThirdFloorProgress.questionsAnswered++;
@@ -2831,43 +2761,11 @@ class _CEEScreenState extends State<CEEScreen> {
       },
     );
   }
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/bimlab.jpg', width: 300, height: 300),
-                Text('Welcome to the Bim Lab'),
-                Text('The MMR Building Information Modeling Laboratory is utilized by construction management students.'),
-                Text('The lab space consists of 44 4K displays that allow for three-dimensional and computer-generated views of building plans'),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DirectionsToProtoLabScreen()),
-                        );
-                      },
-                      child: const Text("Click here to continue tour"),
-                    ),
-                
-              ],
-            ),
-          ],
-        ),
-=======
         title: const Text("Civil & Environmental Engineering"),
         backgroundColor: Colors.deepPurple,
       ),
@@ -2878,7 +2776,7 @@ class _CEEScreenState extends State<CEEScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "QUESTION GOES HERE?", // Replace with actual question
+                  "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -2912,7 +2810,7 @@ class _CEEScreenState extends State<CEEScreen> {
                   Image.asset('assets/cee.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    "The Department of Civil and Environmental Engineering (CEE) at Louisiana State University (LSU) offers undergraduate and graduate programs focused on structural, geotechnical, environmental, transportation, and water resources engineering. The department is known for its research in coastal sustainability, disaster resilience, and infrastructure innovation, benefiting from LSU’s proximity to the Mississippi River and Gulf Coast. CEE students gain hands-on experience through state-of-the-art labs, industry partnerships, and projects addressing real-world engineering challenges.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -2928,20 +2826,14 @@ class _CEEScreenState extends State<CEEScreen> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: NavButton(
-                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+            child: NavButton(context, "⬇️", const ThirdFloorScreen()),
           ),
         ],
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
       ),
     );
   }
 }
 
-<<<<<<< HEAD
-class DirectionsToProtoLabScreen extends StatelessWidget {
-  const DirectionsToProtoLabScreen({super.key});
-=======
 class MIEScreen extends StatefulWidget {
   const MIEScreen({super.key});
 
@@ -2979,8 +2871,7 @@ class _MIEScreenState extends State<MIEScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
-      // Replace with actual answer
+    if (_answerController.text.trim().toUpperCase() == "YES") {
       setState(() {
         if (!_alreadyAnswered) {
           ThirdFloorProgress.questionsAnswered++;
@@ -3032,62 +2923,11 @@ class _MIEScreenState extends State<MIEScreen> {
       },
     );
   }
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Once you have exited the Bim Lab, head back towards the stairs where you began,'),
-                Text('Pass the stairs walk straight until you reach the hallway just before the elevator'),
-                Text('Turn down the first hallway towards the right and enter the second classroom on the right'),
-                Text('What is the room number on that door?'),
-                ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2215"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProtoLabScreen()),
-                        );
-                      },
-                      child: const Text("2272"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2147"),
-                    ),
-              ],
-            ),
-          ],
-        ),
-=======
         title: const Text("Mechanical & Industrial Engineering"),
         backgroundColor: Colors.deepPurple,
       ),
@@ -3098,7 +2938,7 @@ class _MIEScreenState extends State<MIEScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "QUESTION GOES HERE?", // Replace with actual question
+                  "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -3132,7 +2972,7 @@ class _MIEScreenState extends State<MIEScreen> {
                   Image.asset('assets/mie.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    "The Department of Mechanical & Industrial Engineering (MIE) at Louisiana State University (LSU) offers programs in mechanical engineering, industrial engineering, and petroleum engineering. The department emphasizes hands-on learning, research, and industry collaboration in areas such as manufacturing, robotics, energy systems, and supply chain optimization. MIE students benefit from advanced labs, internship opportunities, and strong connections with industry leaders to prepare for careers in engineering and technology.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -3148,20 +2988,14 @@ class _MIEScreenState extends State<MIEScreen> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: NavButton(
-                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+            child: NavButton(context, "⬇️", const ThirdFloorScreen()),
           ),
         ],
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
       ),
     );
   }
 }
 
-<<<<<<< HEAD
-class ProtoLabScreen extends StatelessWidget {
-  const ProtoLabScreen({super.key});
-=======
 class CMScreen extends StatefulWidget {
   const CMScreen({super.key});
 
@@ -3199,8 +3033,7 @@ class _CMScreenState extends State<CMScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
-      // Replace with actual answer
+    if (_answerController.text.trim().toUpperCase() == "YES") {
       setState(() {
         if (!_alreadyAnswered) {
           ThirdFloorProgress.questionsAnswered++;
@@ -3252,43 +3085,11 @@ class _CMScreenState extends State<CMScreen> {
       },
     );
   }
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/protolab.jpg', width: 300, height: 300),
-                Text('Welcome to the Proto Lab'),
-                Text('This space is used by students to fabricate circuit boards and create device prototypes.'),
-                Text('It is designed as a chemistry lab with fume hoods to allow students to safely handle chemicals.'),
-                Text('The lighting and windows are designed to filter out UV light.'),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DirectionsToAnnexLabScreen()),
-                        );
-                      },
-                      child: const Text("Click here to continue tour"),
-                    ),
-              ],
-            ),
-          ],
-        ),
-=======
         title: const Text("Construction Management"),
         backgroundColor: Colors.deepPurple,
       ),
@@ -3299,7 +3100,7 @@ class _CMScreenState extends State<CMScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "QUESTION GOES HERE?", // Replace with actual question
+                  "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -3333,7 +3134,7 @@ class _CMScreenState extends State<CMScreen> {
                   Image.asset('assets/cm.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    "The Construction Management (CM) Department at Louisiana State University (LSU) prepares students for leadership roles in the construction industry by combining engineering, business, and project management principles. The program emphasizes hands-on experience, technological innovation, and sustainable building practices. With strong industry connections, state-of-the-art labs, and internship opportunities, CM graduates are well-equipped for careers in construction, project management, and infrastructure development.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -3349,328 +3150,500 @@ class _CMScreenState extends State<CMScreen> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: NavButton(
-                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+            child: NavButton(context, "⬇️", const ThirdFloorScreen()),
           ),
         ],
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
       ),
     );
   }
 }
 
-<<<<<<< HEAD
-class DirectionsToAnnexLabScreen extends StatelessWidget {
-  const DirectionsToAnnexLabScreen({super.key});
+class EECSScreen extends StatefulWidget {
+  const EECSScreen({super.key});
+
+  @override
+  _EECSScreenState createState() => _EECSScreenState();
+}
+
+class _EECSScreenState extends State<EECSScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("eecs_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("eecs_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "YES") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          ThirdFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion();
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  void _checkCompletion() {
+    if (ThirdFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Third Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Third Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ThirdFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Second Floor"),
+        title: const Text("Electrical Engineering & Computer Science"),
         backgroundColor: Colors.deepPurple,
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Once you have exited the Proto Lab, continue heading down the same hallway'),
-                Text('Pass one more classroom, and then enter the next one on the left.'),
-                Text('What is the room number on that door?'),
-                ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2348"),
+                const Text(
+                  "I am sure you are tired at this point. So just be honest, did you visit this area?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2228"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AnnexLabScreen()),
-                        );
-                      },
-                      child: const Text("2147"),
-                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/eecs.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The Division of Electrical Engineering & Computer Science (EECS) at Louisiana State University (LSU) offers cutting-edge programs in electrical engineering, computer engineering, and computer science. The division focuses on areas such as artificial intelligence, cybersecurity, embedded systems, power systems, and telecommunications. With advanced research facilities, industry partnerships, and hands-on learning opportunities, EECS prepares students for careers in rapidly evolving technological fields.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const ThirdFloorScreen()),
+          ),
+        ],
       ),
     );
   }
 }
 
-class AnnexLabScreen extends StatelessWidget {
-  const AnnexLabScreen({super.key});
+class ChEScreen extends StatefulWidget {
+  const ChEScreen({super.key});
+
+  @override
+  _ChEScreenState createState() => _ChEScreenState();
+}
+
+class _ChEScreenState extends State<ChEScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("che_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("che_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "YES") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          ThirdFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion();
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  void _checkCompletion() {
+    if (ThirdFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Third Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Third Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ThirdFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Second Floor"),
+        title: const Text("Chemical Engineering"),
         backgroundColor: Colors.deepPurple,
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/drillingfluidlab.jpg', width: 300, height: 300),
-                Text('Welcome to the Annex/ Drilling Fluid Lab'),
-                Text('Drilling fluids are the mixtures of water, clay, minerals and chemicals used by petroleum engineers to'),
-                Text('maintain pressure within a well, clean and lubricate drill bits and bore holes, and transport cuttings and debris to the surface.'),
-                Text('This lab provides a space for students to gain hands-on experience with this type of equipment'),
-                Text('so they are well-prepared for work in the field.'),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DirectionsToDrivingSimulatorScreen()),
-                        );
-                      },
-                      child: const Text("Click here to continue tour"),
+                const Text(
+                  "I am sure you are tired at this point. So just be honest, did you visit this area?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
                     ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/che.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The Cain Department of Chemical Engineering (ChE) at Louisiana State University (LSU) provides a strong foundation in chemical processes, materials science, and energy production. The program emphasizes hands-on research, sustainability, and industrial applications, preparing students for careers in petrochemicals, pharmaceuticals, biotechnology, and environmental engineering. With state-of-the-art labs and strong industry ties, LSU ChE graduates are well-equipped to tackle real-world engineering challenges.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const ThirdFloorScreen()),
+          ),
+        ],
       ),
     );
   }
 }
 
-class DirectionsToDrivingSimulatorScreen extends StatelessWidget {
-  const DirectionsToDrivingSimulatorScreen({super.key});
+class ElevatorsScreen extends StatefulWidget {
+  const ElevatorsScreen({super.key});
+
+  @override
+  _ElevatorsScreenState createState() => _ElevatorsScreenState();
+}
+
+class _ElevatorsScreenState extends State<ElevatorsScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("elevators_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("elevators_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "YES") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          ThirdFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion();
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  void _checkCompletion() {
+    if (ThirdFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Third Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Third Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ThirdFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Second Floor"),
+        title: const Text("Elevators"),
         backgroundColor: Colors.deepPurple,
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Once you have exited the Annex/ Drilling Fluid Lab, make your way back to the stairs where you began'),
-                Text('The classroom on the right directly before you reach the stairs is your next stop'),
-                Text('What is the room number on that door?'),
-                ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DrivingSimulatorScreen()),
-                        );
-                      },
-                      child: const Text("2215"),
+                const Text(
+                  "I am sure you are tired at this point. So just be honest, did you visit this area?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2228"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WrongScreen()),
-                        );
-                      },
-                      child: const Text("2348"),
-                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/elevators.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "You found the elevators! You can leave now!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const ThirdFloorScreen()),
+          ),
+        ],
       ),
     );
   }
 }
 
-class DrivingSimulatorScreen extends StatelessWidget {
-  const DrivingSimulatorScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/drivingsimulator.jpg', width: 300, height: 300),
-                Text('Welcome to the Civil Engineering Driving Simulator classroom'),
-                Text('The Civil Engineering Driving Simulator Laboratory allows students and'),
-                Text('faculty to research driving behaviors, environments, and traffic.'),
-                Text('Equipped with multiple screens, projectors, and blackout curtains, this lab gives our researchers the ability '),
-                Text('to test drive on new roadways and study drivers’ reactions to unexpected obstacles and events.'),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DirectionsToBrookshireScreen()),
-                        );
-                      },
-                      child: const Text("Click here to continue tour"),
-                    ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DirectionsToBrookshireScreen extends StatelessWidget {
-  const DirectionsToBrookshireScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Once you have exited the driving simulator classroom, head back to the top of the stairs'),
-                Text('Once you are there, face towards the stairs and look straight ahead.'),
-                Text('The room you are facing you will spend a lot of time in if you become an engineering student at LSU'),
-                ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BrookshireScreen()),
-                        );
-                      },
-                      child: const Text("Click here to learn about that room"),
-                    ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class BrookshireScreen extends StatelessWidget {
-  const BrookshireScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/brookshire.jpg', width: 300, height: 300),
-                Text('Welcome to the Brookshire Student Service Suite'),
-                Text('This room is a stop for most students who have questions or need help.'),
-                Text('The Office of Student Services provides many resources, as well as academic advisors. '),
-                Text('This suite also has an engineering career coach, recruiting and outreach staff.'),
-                Text("You have finsihed all the stops on the second floor, click the button below to continue to the third floor"),
-                ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ThirdFloorScreen()),
-                        );
-                      },
-                      child: const Text("Click here to continue tour"),
-                    ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class WrongScreen extends StatelessWidget {
-  const WrongScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Second Floor"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/wrongway.jpg', width: 300, height: 300),
-                Text('You are entering the incorrect room, reread the directions and try again'),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-=======
 class ThirdFloorProgress {
   static int questionsAnswered = 0;
   static const int totalQuestions = 7; // Total screens for the third floor
@@ -3695,4 +3668,3 @@ class ThirdFloorProgress {
     await prefs.setBool("elevators_answered", false);
   }
 }
->>>>>>> 5f5c5049dd89daac87bc7d17537ff34c9f58b119
