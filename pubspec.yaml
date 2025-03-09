@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^2.2.2  # Add this line
+  shared_preferences: ^2.5.2  # Add this line
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -71,6 +71,7 @@ flutter:
    - assets/cambre.png
    - assets/BASF.png
    - assets/bathroom.png
+   - assets/secondfloorlayout.jpg
 
 
   # The following line ensures that the Material Icons font is
