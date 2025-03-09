@@ -80,7 +80,13 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SecondFloorScreen()),
+                        );
+                      },
                       child: const Text("Explore 2nd Floor"),
                     ),
                     const SizedBox(height: 15),
@@ -193,34 +199,31 @@ class SecondFloorScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
       ),
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Welcome to the Second Floor!",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
-              },
-              child: const Text("Return to Home"),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
-              },
-              child: const Text("Go to 3rd Floor"),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/secondfloorlayout.png', width: 700, height: 700),
+                const Text(
+                  "This tour will begin at the top of the large stair case looking over the capstone gallery",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                Text('You will explore the layout of the second floor, and get some background of some of the frequenlty used facilties'),
+                Text('When you are ready to begin the tour, press the button below.'),
+                ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DirectionsToBimLabScreen()),
+                        );
+                      },
+                      child: const Text("Begin the tour"),
+                    ),
+              ],
             ),
           ],
         ),
@@ -2467,5 +2470,521 @@ class FirstFloorProgress {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     questionsAnswered = 0;
     await prefs.clear(); // Clears all saved answers
+  }
+}
+
+class DirectionsToBimLabScreen extends StatelessWidget {
+  const DirectionsToBimLabScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/startingpointfloortwo.jpg', width: 300, height: 300),
+                Text('Starting at the top of the staircase turn right'),
+                Text('When the hallway breaks off into 3 directions, turn left.'),
+                Text('Enter the first door on the left'),
+                Text('What is the room number for that door?'),
+                ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BimLabScreen()),
+                        );
+                      },
+                      child: const Text("2348"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2272"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2147"),
+                    ),
+
+                
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BimLabScreen extends StatelessWidget {
+  const BimLabScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/bimlab.jpg', width: 300, height: 300),
+                Text('Welcome to the Bim Lab'),
+                Text('The MMR Building Information Modeling Laboratory is utilized by construction management students.'),
+                Text('The lab space consists of 44 4K displays that allow for three-dimensional and computer-generated views of building plans'),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DirectionsToProtoLabScreen()),
+                        );
+                      },
+                      child: const Text("Click here to continue tour"),
+                    ),
+                
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DirectionsToProtoLabScreen extends StatelessWidget {
+  const DirectionsToProtoLabScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Once you have exited the Bim Lab, head back towards the stairs where you began,'),
+                Text('Pass the stairs walk straight until you reach the hallway just before the elevator'),
+                Text('Turn down the first hallway towards the right and enter the second classroom on the right'),
+                Text('What is the room number on that door?'),
+                ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2215"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProtoLabScreen()),
+                        );
+                      },
+                      child: const Text("2272"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2147"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProtoLabScreen extends StatelessWidget {
+  const ProtoLabScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/protolab.jpg', width: 300, height: 300),
+                Text('Welcome to the Proto Lab'),
+                Text('This space is used by students to fabricate circuit boards and create device prototypes.'),
+                Text('It is designed as a chemistry lab with fume hoods to allow students to safely handle chemicals.'),
+                Text('The lighting and windows are designed to filter out UV light.'),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DirectionsToAnnexLabScreen()),
+                        );
+                      },
+                      child: const Text("Click here to continue tour"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DirectionsToAnnexLabScreen extends StatelessWidget {
+  const DirectionsToAnnexLabScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Once you have exited the Proto Lab, continue heading down the same hallway'),
+                Text('Pass one more classroom, and then enter the next one on the left.'),
+                Text('What is the room number on that door?'),
+                ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2348"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2228"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AnnexLabScreen()),
+                        );
+                      },
+                      child: const Text("2147"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AnnexLabScreen extends StatelessWidget {
+  const AnnexLabScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/drillingfluidlab.jpg', width: 300, height: 300),
+                Text('Welcome to the Annex/ Drilling Fluid Lab'),
+                Text('Drilling fluids are the mixtures of water, clay, minerals and chemicals used by petroleum engineers to'),
+                Text('maintain pressure within a well, clean and lubricate drill bits and bore holes, and transport cuttings and debris to the surface.'),
+                Text('This lab provides a space for students to gain hands-on experience with this type of equipment'),
+                Text('so they are well-prepared for work in the field.'),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DirectionsToDrivingSimulatorScreen()),
+                        );
+                      },
+                      child: const Text("Click here to continue tour"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DirectionsToDrivingSimulatorScreen extends StatelessWidget {
+  const DirectionsToDrivingSimulatorScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Once you have exited the Annex/ Drilling Fluid Lab, make your way back to the stairs where you began'),
+                Text('The classroom on the right directly before you reach the stairs is your next stop'),
+                Text('What is the room number on that door?'),
+                ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DrivingSimulatorScreen()),
+                        );
+                      },
+                      child: const Text("2215"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2228"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WrongScreen()),
+                        );
+                      },
+                      child: const Text("2348"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DrivingSimulatorScreen extends StatelessWidget {
+  const DrivingSimulatorScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/drivingsimulator.jpg', width: 300, height: 300),
+                Text('Welcome to the Civil Engineering Driving Simulator classroom'),
+                Text('The Civil Engineering Driving Simulator Laboratory allows students and'),
+                Text('faculty to research driving behaviors, environments, and traffic.'),
+                Text('Equipped with multiple screens, projectors, and blackout curtains, this lab gives our researchers the ability '),
+                Text('to test drive on new roadways and study drivers’ reactions to unexpected obstacles and events.'),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DirectionsToBrookshireScreen()),
+                        );
+                      },
+                      child: const Text("Click here to continue tour"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DirectionsToBrookshireScreen extends StatelessWidget {
+  const DirectionsToBrookshireScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Once you have exited the driving simulator classroom, head back to the top of the stairs'),
+                Text('Once you are there, face towards the stairs and look straight ahead.'),
+                Text('The room you are facing you will spend a lot of time in if you become an engineering student at LSU'),
+                ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BrookshireScreen()),
+                        );
+                      },
+                      child: const Text("Click here to learn about that room"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BrookshireScreen extends StatelessWidget {
+  const BrookshireScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/brookshire.jpg', width: 300, height: 300),
+                Text('Welcome to the Brookshire Student Service Suite'),
+                Text('This room is a stop for most students who have questions or need help.'),
+                Text('The Office of Student Services provides many resources, as well as academic advisors. '),
+                Text('This suite also has an engineering career coach, recruiting and outreach staff.'),
+                Text("You have finsihed all the stops on the second floor, click the button below to continue to the third floor"),
+                ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ThirdFloorScreen()),
+                        );
+                      },
+                      child: const Text("Click here to continue tour"),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class WrongScreen extends StatelessWidget {
+  const WrongScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Second Floor"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/wrongway.jpg', width: 300, height: 300),
+                Text('You are entering the incorrect room, reread the directions and try again'),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
