@@ -80,12 +80,26 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const SecondFloorScreen()), // Update when SecondFloorScreen is ready
+                        );
+                      },
                       child: const Text("Explore 2nd Floor"),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ThirdFloorScreen()), // Now navigates to 3rd Floor!
+                        );
+                      },
                       child: const Text("Explore 3rd Floor"),
                     ),
                   ],
@@ -236,7 +250,7 @@ class ThirdFloorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Third Floor"),
+        title: const Text("Third Floor Main Screen"),
         backgroundColor: Colors.deepPurple,
       ),
       body: Center(
@@ -244,33 +258,55 @@ class ThirdFloorScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Welcome to the Third Floor!",
+              "Choose your destination on the Third Floor",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
+
+            // Buttons for navigating to each section
+            buildNavButton(context, "Alfredo", const AlfredoScreen()),
+            buildNavButton(context, "CEE (Civil & Environmental Engineering)",
+                const CEEScreen()),
+            buildNavButton(context, "MIE (Mechanical & Industrial Engineering)",
+                const MIEScreen()),
+            buildNavButton(
+                context, "CM (Construction Management)", const CMScreen()),
+            buildNavButton(
+                context,
+                "EECS (Electrical Engineering & Computer Science)",
+                const EECSScreen()),
+            buildNavButton(
+                context, "ChE (Chemical Engineering)", const ChEScreen()),
+            buildNavButton(context, "Elevators", const ElevatorsScreen()),
+
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                Navigator.pop(context); // Go back to previous screen
               },
-              child: const Text("Return to Home"),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
-              },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Back to Home"),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Helper method for creating buttons
+  Widget buildNavButton(BuildContext context, String title, Widget screen) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => screen));
+        },
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+          textStyle: const TextStyle(fontSize: 18),
+        ),
+        child: Text(title),
       ),
     );
   }
@@ -304,7 +340,7 @@ class GenericScreen extends StatelessWidget {
                 alignment: _getAlignment(entry.key),
                 child: entry.value,
               );
-            }),
+            }).toList(),
         ],
       ),
     );
@@ -361,7 +397,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about Panera.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -373,59 +409,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     prefs.setBool("restaurant_answered", true);
   }
 
-  // Check if all questions are completed
-  void _checkCompletion() {
-    if (FirstFloorProgress.isCompleted()) {
-      _showCompletionDialog();
-    }
-  }
-
-  void _showCompletionDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("First Floor Completed! 🎉"),
-          content: const Text(
-              "You've completed all the questions for the First Floor!"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
-              },
-              child: const Text("Go to 2nd Floor"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
-              },
-              child: const Text("Go to 3rd Floor"),
-            ),
-            TextButton(
-              onPressed: () {
-                FirstFloorProgress.resetProgress();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
-              },
-              child: const Text("Restart"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "B") {
       setState(() {
@@ -435,7 +418,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
-        _message = "Correct! Here's some history about Panera.";
+        _message = "Correct!";
       });
 
       _checkCompletion(); // Check if all 11 questions are answered
@@ -446,122 +429,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         _answerController.clear();
       });
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Restaurant"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Stack(
-        children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "What is the 7th letter of the restaurant that you are now approaching?\n(Hint: It is the first letter of the 2nd word).",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
-                  const SizedBox(height: 20),
-                  Image.asset('assets/panera.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "The History of Panera",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          // Restore Arrows
-          Align(
-            alignment: Alignment.centerLeft,
-            child: NavButton(context, "⬅️", const Room1220sScreen()),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: NavButton(context, "⬇️", const CommonsScreen()),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CenterForEngineeringEducationScreen extends StatefulWidget {
-  const CenterForEngineeringEducationScreen({super.key});
-
-  @override
-  _CenterForEngineeringEducationScreenState createState() =>
-      _CenterForEngineeringEducationScreenState();
-}
-
-class _CenterForEngineeringEducationScreenState
-    extends State<CenterForEngineeringEducationScreen> {
-  final TextEditingController _answerController = TextEditingController();
-  String _message = "";
-  bool _isCorrect = false;
-  bool _alreadyAnswered = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAnswerState();
-  }
-
-  // Load answer state from SharedPreferences
-  void _loadAnswerState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? answered = prefs.getBool("center_engineering_answered");
-    if (answered == true) {
-      setState(() {
-        _isCorrect = true;
-        _message = "Correct! Here's some history about Chevron.";
-        _alreadyAnswered = true;
-      });
-    }
-  }
-
-  // Save answer state to SharedPreferences
-  void _saveAnswerState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("center_engineering_answered", true);
   }
 
   // Check if all first floor questions are completed
@@ -618,6 +485,123 @@ class _CenterForEngineeringEducationScreenState
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Restaurant"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What is the 7th letter of the restaurant that you are now approaching?\n(Hint: It is the first letter of the 2nd word).",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/panera.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "​Panera Bread opened in LSU's Patrick F. Taylor Hall on August 13, 2018, offering students and faculty convenient access to freshly baked goods, soups, salads, and sandwiches. Notably, this location was the first on campus to feature kiosk ordering stations, reducing wait times and enhancing the dining experience. Its presence makes Patrick F. Taylor Hall one of the few academic buildings at LSU with an in-house dining option, providing a unique blend of academic and culinary amenities.​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Restore navigation arrows
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const Room1220sScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const CommonsScreen()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CenterForEngineeringEducationScreen extends StatefulWidget {
+  const CenterForEngineeringEducationScreen({super.key});
+
+  @override
+  _CenterForEngineeringEducationScreenState createState() =>
+      _CenterForEngineeringEducationScreenState();
+}
+
+class _CenterForEngineeringEducationScreenState
+    extends State<CenterForEngineeringEducationScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  // Load answer state from SharedPreferences
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("center_for_engineering_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  // Save answer state to SharedPreferences
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("center_for_engineering_answered", true);
+  }
+
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() == "CHEVRON") {
       setState(() {
@@ -627,7 +611,7 @@ class _CenterForEngineeringEducationScreenState
           _saveAnswerState(); // Save correct answer state
         }
         _isCorrect = true;
-        _message = "Correct! Here's some history about Chevron.";
+        _message = "Correct!";
       });
 
       _checkCompletion(); // Check if all 11 questions are answered
@@ -638,6 +622,60 @@ class _CenterForEngineeringEducationScreenState
         _answerController.clear();
       });
     }
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (FirstFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("First Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the First Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SecondFloorScreen()),
+                );
+              },
+              child: const Text("Go to 2nd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -688,8 +726,9 @@ class _CenterForEngineeringEducationScreenState
                   Image.asset('assets/chev.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of Chevron",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "​The Chevron Center for Engineering Education, located within LSU's Patrick F. Taylor Hall, serves as a hub for enhancing engineering students' communication and technical skills. The center offers resources such as 3D printers, scanners, and a computer lab, supporting various academic projects. Additionally, it provides access to Communication-Intensive courses, study abroad opportunities through the Geaux Global Program, and guidance for students aiming to become LSU Distinguished Communicators.​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -742,7 +781,7 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about TV news.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -752,6 +791,28 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("auditoriums_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "TV") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -806,28 +867,6 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
         );
       },
     );
-  }
-
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "TV") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about TV news.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
   }
 
   @override
@@ -878,8 +917,9 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
                   Image.asset('assets/audit.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of TV News",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "​Located outside the auditoriums in LSU's Patrick F. Taylor Hall, televisions display news covering politics, sports, and campus events. These screens keep students and faculty informed about current affairs and university happenings. This integration of information technology enhances the academic environment by fostering awareness and engagement within the campus community.​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -893,16 +933,16 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
           ),
           // Restore navigation arrows
           Align(
+            alignment: Alignment.topLeft,
+            child: NavButton(context, "↖️", const Zone1100Part1Screen()),
+          ),
+          Align(
             alignment: Alignment.topCenter,
-            child: NavButton(context, "⬆️", const Zone1100Part1Screen()),
+            child: NavButton(context, "⬆️", const Room1202Screen()),
           ),
           Align(
             alignment: Alignment.centerRight,
             child: NavButton(context, "➡️", const Room1200Screen()),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: NavButton(context, "↗️", const Room1202Screen()),
           ),
         ],
       ),
@@ -936,7 +976,7 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about the Cambre Atrium.";
+        _message = "Congrats!";
         _alreadyAnswered = true;
       });
     }
@@ -946,6 +986,28 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("cambre_atrium_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim() == "5") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Congrats!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -1002,28 +1064,6 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     );
   }
 
-  void _checkAnswer() {
-    if (_answerController.text.trim() == "5") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about the Cambre Atrium.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1047,7 +1087,6 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
                   TextField(
                     controller: _answerController,
                     textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Enter your answer",
@@ -1073,8 +1112,9 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
                   Image.asset('assets/cambre.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of the Cambre Atrium",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "The Cambre Atrium in LSU's Patrick F. Taylor Hall serves as a central connector between the original structure and a newly constructed three-story laboratory annex. Lined with 30 classrooms accommodating 30 to 150 seats each, it also houses the RoyOMartin Auditorium, which seats up to 250 people. This expansive space is one of three main common areas in the building, designed to foster student interaction and collaboration.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -1127,7 +1167,7 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about Rene.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -1137,6 +1177,28 @@ class _Room1200ScreenState extends State<Room1200Screen> {
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1200_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "RENE") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -1191,28 +1253,6 @@ class _Room1200ScreenState extends State<Room1200Screen> {
         );
       },
     );
-  }
-
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "RENE") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about Rene.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
   }
 
   @override
@@ -1263,8 +1303,9 @@ class _Room1200ScreenState extends State<Room1200Screen> {
                   Image.asset('assets/1200.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of Rene",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "Room 1200 in LSU's Patrick F. Taylor Hall is a general-purpose classroom with a seating capacity of 150. Located within the 1200 Zone of the building, it is accessible via the North, South, and West entrances. This room is equipped with multimedia capabilities, including HDMI input, and offers features such as a microphone system, Turning Point Clicker availability upon request, and lecture capture services.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -1278,12 +1319,12 @@ class _Room1200ScreenState extends State<Room1200Screen> {
           ),
           // Restore navigation arrows
           Align(
-            alignment: Alignment.topCenter,
-            child: NavButton(context, "⬆️", const Room1202Screen()),
-          ),
-          Align(
             alignment: Alignment.centerLeft,
             child: NavButton(context, "⬅️", const AuditoriumsScreen()),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const Room1202Screen()),
           ),
         ],
       ),
@@ -1317,7 +1358,7 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about Favre.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -1327,6 +1368,28 @@ class _Room1202ScreenState extends State<Room1202Screen> {
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1202_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "FAVRE") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -1381,28 +1444,6 @@ class _Room1202ScreenState extends State<Room1202Screen> {
         );
       },
     );
-  }
-
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "FAVRE") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about Favre.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
   }
 
   @override
@@ -1453,8 +1494,9 @@ class _Room1202ScreenState extends State<Room1202Screen> {
                   Image.asset('assets/1202.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of Favre",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "The Donor Wall (outside of Room 1202) in LSU's Patrick F. Taylor Hall is prominently located across from the RoyOMartin Auditorium within the Cambre Atrium. This installation honors the generous contributions of individual donors and industry partners who, alongside funding from the state of Louisiana, played a pivotal role in the building's renovation and expansion.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -1470,10 +1512,6 @@ class _Room1202ScreenState extends State<Room1202Screen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const Room1200Screen()),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: NavButton(context, "⬅️", const AuditoriumsScreen()),
           ),
           Align(
             alignment: Alignment.centerRight,
@@ -1518,7 +1556,7 @@ class _SustainableLivingLabScreenState
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about BASF.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -1528,6 +1566,28 @@ class _SustainableLivingLabScreenState
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("sustainable_lab_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "BASF") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -1582,28 +1642,6 @@ class _SustainableLivingLabScreenState
         );
       },
     );
-  }
-
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "BASF") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about BASF.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
   }
 
   @override
@@ -1654,8 +1692,9 @@ class _SustainableLivingLabScreenState
                   Image.asset('assets/BASF.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of BASF",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "​The BASF Sustainable Living Laboratory, established in 2017 within LSU's Patrick F. Taylor Hall, is an innovative space promoting problem-based teaching and research focused on sustainable solutions to global challenges. Funded by a 1 million dollar donation from BASF, the lab has facilitated research projects such as developing portable water filtration systems using visible sunlight and creating new functional polymers and nanoscale composites for various applications. Notably, the lab's construction incorporated BASF products, including ceiling tiles, flooring, and wall paint, and features a state-of-the-art communication system that enables virtual participation through webcasting technology.​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -1704,11 +1743,11 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
   // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? answered = prefs.getBool("zone1100_part1_answered");
+    bool? answered = prefs.getBool("zone1100part1_answered");
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about vending.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -1717,7 +1756,29 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
   // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("zone1100_part1_answered", true);
+    prefs.setBool("zone1100part1_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "VENDING") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -1774,28 +1835,6 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
     );
   }
 
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "VENDING") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about vending.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1841,11 +1880,12 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
                 ),
                 if (_isCorrect) ...[
                   const SizedBox(height: 20),
-                  Image.asset('assets/1101pt1.png', width: 300),
+                  Image.asset('assets/1100pt1.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of Vending",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "Louisiana State University (LSU) offers over 300 vending machines across its campus, providing snacks, beverages, and essential academic supplies like Scantrons and bluebooks. These machines accept various payment methods, including cash, credit cards, and TigerCASH—a campus-specific currency linked to student IDs. Notable vending locations include the LSU Library, Nicholson Hall, Himes Hall, Lockett Hall lounge (3rd floor), Audubon Hall basement, Hodges Hall, J.C. Miller Hall (1st floor hallway), Stubbs Hall, Coates Hall, Chopin Hall, LSU Student Union, and the Design Building Atrium Cafe.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -1898,11 +1938,11 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
   // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? answered = prefs.getBool("zone1100_part2_answered");
+    bool? answered = prefs.getBool("zone1100part2_answered");
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about the googly eyes.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -1911,7 +1951,29 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
   // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("zone1100_part2_answered", true);
+    prefs.setBool("zone1100part2_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "GOOGLY") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -1968,28 +2030,6 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
     );
   }
 
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "GOOGLY") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about the googly eyes.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -2038,8 +2078,9 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
                   Image.asset('assets/1101pt2.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of the Googly Eyes",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "Balancing academics and personal life is a common challenge for LSU students, with experiences varying based on individual circumstances and academic paths. For example, one student noted that their freshman year in engineering 'wasn't too bad,' but acknowledged that workload and free time can differ significantly among students. To support students in achieving a healthy work-life balance, LSU offers resources such as the 'Work-Life Balance for Women in Business' course, which addresses stress management and productivity enhancement. Additionally, students like Flau'jae Johnson exemplify balancing multiple commitments, managing both academic responsibilities and a burgeoning music career.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -2092,7 +2133,7 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about the Capstone Gallery.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -2102,6 +2143,28 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1220s_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "CAPSTONE GALLERY") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -2158,28 +2221,6 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     );
   }
 
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "CAPSTONE GALLERY") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about the Capstone Gallery.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -2194,7 +2235,7 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Right before you get to the bathroom, there is a sign above your head. What is the location at the bottom left of the sign? (Hint: two words)",
+                  "Right before you get to the bathroom, there is a sign above your head, what is the location at the bottom left of the sign? (Hint: two words)",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -2228,8 +2269,9 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
                   Image.asset('assets/bathroom.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of the Capstone Gallery",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "​Patrick F. Taylor Hall at LSU offers well-maintained restroom facilities on each floor, conveniently located near classrooms and common areas. The second-floor bathrooms are particularly noted for their cleanliness and low foot traffic, making them a preferred choice for many students.​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -2282,7 +2324,7 @@ class _CommonsScreenState extends State<CommonsScreen> {
     if (answered == true) {
       setState(() {
         _isCorrect = true;
-        _message = "Correct! Here's some history about Tau Beta Pi.";
+        _message = "Correct!";
         _alreadyAnswered = true;
       });
     }
@@ -2292,6 +2334,28 @@ class _CommonsScreenState extends State<CommonsScreen> {
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("commons_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "TAU BETA PI") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          FirstFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
   }
 
   // Check if all first floor questions are completed
@@ -2348,33 +2412,11 @@ class _CommonsScreenState extends State<CommonsScreen> {
     );
   }
 
-  void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "TAU BETA PI") {
-      setState(() {
-        if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
-          _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
-        }
-        _isCorrect = true;
-        _message = "Correct! Here's some history about Tau Beta Pi.";
-      });
-
-      _checkCompletion(); // Check if all 11 questions are answered
-    } else {
-      setState(() {
-        _isCorrect = false;
-        _message = "Try again.";
-        _answerController.clear();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Commons"),
+        title: const Text("The Commons"),
         backgroundColor: Colors.deepPurple,
       ),
       body: Stack(
@@ -2418,8 +2460,9 @@ class _CommonsScreenState extends State<CommonsScreen> {
                   Image.asset('assets/commons.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The History of Tau Beta Pi",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "The Commons in LSU's Patrick F. Taylor Hall serves as the building's main gathering space, fostering collaboration and interaction among students and faculty. This atrium area features a Panera Bread café, providing convenient dining options within the academic setting. Adjacent to The Commons is the Dow Student Leadership Incubator, which supports over 40 engineering student organizations, enhancing leadership development and community engagement.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -2433,13 +2476,13 @@ class _CommonsScreenState extends State<CommonsScreen> {
           ),
           // Restore navigation arrows
           Align(
-            alignment: Alignment.topCenter,
-            child: NavButton(context, "⬆️", const RestaurantScreen()),
-          ),
-          Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(
                 context, "⬇️", const CenterForEngineeringEducationScreen()),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: NavButton(context, "⬆️", const RestaurantScreen()),
           ),
         ],
       ),
@@ -2467,5 +2510,686 @@ class FirstFloorProgress {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     questionsAnswered = 0;
     await prefs.clear(); // Clears all saved answers
+  }
+}
+
+class AlfredoScreen extends StatefulWidget {
+  const AlfredoScreen({super.key});
+
+  @override
+  _AlfredoScreenState createState() => _AlfredoScreenState();
+}
+
+class _AlfredoScreenState extends State<AlfredoScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("alfredo_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("alfredo_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
+      // Replace with actual answer
+      setState(() {
+        if (!_alreadyAnswered) {
+          ThirdFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion();
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  void _checkCompletion() {
+    if (ThirdFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Third Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Third Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ThirdFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Alfredo"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "QUESTION GOES HERE?", // Replace with actual question
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/alfredo.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(
+                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CEEScreen extends StatefulWidget {
+  const CEEScreen({super.key});
+
+  @override
+  _CEEScreenState createState() => _CEEScreenState();
+}
+
+class _CEEScreenState extends State<CEEScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("cee_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("cee_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
+      // Replace with actual answer
+      setState(() {
+        if (!_alreadyAnswered) {
+          ThirdFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion();
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  void _checkCompletion() {
+    if (ThirdFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Third Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Third Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ThirdFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Civil & Environmental Engineering"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "QUESTION GOES HERE?", // Replace with actual question
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/cee.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(
+                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MIEScreen extends StatefulWidget {
+  const MIEScreen({super.key});
+
+  @override
+  _MIEScreenState createState() => _MIEScreenState();
+}
+
+class _MIEScreenState extends State<MIEScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("mie_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("mie_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
+      // Replace with actual answer
+      setState(() {
+        if (!_alreadyAnswered) {
+          ThirdFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion();
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  void _checkCompletion() {
+    if (ThirdFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Third Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Third Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ThirdFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Mechanical & Industrial Engineering"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "QUESTION GOES HERE?", // Replace with actual question
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/mie.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(
+                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CMScreen extends StatefulWidget {
+  const CMScreen({super.key});
+
+  @override
+  _CMScreenState createState() => _CMScreenState();
+}
+
+class _CMScreenState extends State<CMScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("cm_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("cm_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "ANSWER") {
+      // Replace with actual answer
+      setState(() {
+        if (!_alreadyAnswered) {
+          ThirdFloorProgress.questionsAnswered++;
+          _alreadyAnswered = true;
+          _saveAnswerState();
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion();
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  void _checkCompletion() {
+    if (ThirdFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Third Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Third Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ThirdFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Construction Management"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "QUESTION GOES HERE?", // Replace with actual question
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/cm.png', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "DESCRIPTION GOES HERE", // Replace with actual description
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(
+                context, "⬇️", const ThirdFloorScreen()), // Adjust as needed
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ThirdFloorProgress {
+  static int questionsAnswered = 0;
+  static const int totalQuestions = 7; // Total screens for the third floor
+
+  static bool isCompleted() {
+    return questionsAnswered >= totalQuestions;
+  }
+
+  static void resetProgress() {
+    questionsAnswered = 0;
+    _resetStoredProgress();
+  }
+
+  static void _resetStoredProgress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("alfredo_answered", false);
+    await prefs.setBool("cee_answered", false);
+    await prefs.setBool("mie_answered", false);
+    await prefs.setBool("cm_answered", false);
+    await prefs.setBool("eecs_answered", false);
+    await prefs.setBool("che_answered", false);
+    await prefs.setBool("elevators_answered", false);
   }
 }
