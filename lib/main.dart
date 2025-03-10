@@ -3704,7 +3704,7 @@ class _BimLabScreenState extends State<BimLabScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "B") {
+    if (_answerController.text.trim().toUpperCase() == "2348 and construction management") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -3895,7 +3895,7 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "B") {
+    if (_answerController.text.trim().toUpperCase() == "2272 and electrical engineering") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -4087,7 +4087,7 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "B") {
+    if (_answerController.text.trim().toUpperCase() == "2147 and chemical engineering") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -4278,7 +4278,7 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "B") {
+    if (_answerController.text.trim().toUpperCase() == "2215 and civil engineering") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -4469,7 +4469,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "B") {
+    if (_answerController.text.trim().toUpperCase() == "2228 and all engineering majors") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
