@@ -207,39 +207,35 @@ class SecondFloorScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
       ),
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Welcome to the Second Floor!",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Choose your starting point",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                // Buttons linking to 11 new screens
+                buildNavButton(context, "Bim Lab", const BimLabScreen()),
+                buildNavButton(context, "ProtoLab",
+                    const ProtoLabScreen()),
+                buildNavButton(
+                    context, "Annex/ Drilling Fluid Lab", const AnnexLabScreen()),
+                buildNavButton(
+                    context, "Civil Engineering Driving Simulator", const DrivingSimulatorScreen()),
+                buildNavButton(
+                    context, "Brookshire Student Service Suite", const BrookshireScreen()),
+              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
-              },
-              child: const Text("Return to Home"),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
-              },
-              child: const Text("Go to 3rd Floor"),
-            ),
+            const SizedBox(width: 50),
+            Image.asset('assets/secondfloorlayout.jpg', width: 700, height: 700),
           ],
         ),
       ),
-    );
   }
 }
 
@@ -3666,5 +3662,984 @@ class ThirdFloorProgress {
     await prefs.setBool("eecs_answered", false);
     await prefs.setBool("che_answered", false);
     await prefs.setBool("elevators_answered", false);
+  }
+}
+
+class BimLabScreen extends StatefulWidget {
+  const BimLabScreen({super.key});
+
+  @override
+  _BimLabScreenState createState() => _BimLabScreenState();
+}
+
+class _BimLabScreenState extends State<BimLabScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  // Load answer state from SharedPreferences
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("bimlab_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  // Save answer state to SharedPreferences
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("bimlab_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "B") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          SecondFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (SecondFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Second Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Second Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FirstFloorScreen()),
+                );
+              },
+              child: const Text("Go to 1st Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Bim Lab"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What room number is the Bim Lab? What major commonly uses it?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/bimlab.jpg', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The lab space consists of 44 4K displays that allow for three-dimensional and computer-generated views of building plans. This allows students and faculty to virtually visit building sites to make assessments, alter plans, and consider concerns like safety and maintenance..​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Second Floor Questions Answered: ${SecondFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Restore navigation arrows
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const ProtoLabScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const AnnexLabScreen()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProtoLabScreen extends StatefulWidget {
+  const ProtoLabScreen({super.key});
+
+  @override
+  _ProtoLabScreenState createState() => _ProtoLabScreenState();
+}
+
+class _ProtoLabScreenState extends State<ProtoLabScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  // Load answer state from SharedPreferences
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("protolab_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  // Save answer state to SharedPreferences
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("protolab_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "B") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          SecondFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (SecondFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Second Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Second Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FirstFloorScreen()),
+                );
+              },
+              child: const Text("Go to 1st Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Proto Lab"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What room number is the Proto Lab? What major commonly uses it?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/protolab.jpg', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "This space is used by students to fabricate circuit boards and create device prototypes.​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Second Floor Questions Answered: ${SecondFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Restore navigation arrows
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬇️", const BimLabScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const AnnexLabScreen()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class AnnexLabScreen extends StatefulWidget {
+  const AnnexLabScreen({super.key});
+
+  @override
+  _AnnexLabScreenState createState() => _AnnexLabScreenState();
+}
+
+class _AnnexLabScreenState extends State<AnnexLabScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  // Load answer state from SharedPreferences
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("annexlab_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  // Save answer state to SharedPreferences
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("annexlab_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "B") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          SecondFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (SecondFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Second Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Second Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FirstFloorScreen()),
+                );
+              },
+              child: const Text("Go to 1st Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Annex/ Drilling Fluid Lab"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What room number is the Drilling Fluids Lab? What major commonly uses it?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/drillingfluidlab.jpg', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Petroleum engineers use many different methods and types of equipment to measure and adjust drilling fluids including mud balances, filter presses, and viscometers. This lab provides a space for students to gain hands-on experience with this type of equipment so they are well-prepared for work in the field..​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Second Floor Questions Answered: ${SecondFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Restore navigation arrows
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬇️", const DrivingSimulatorScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬆️", const ProtoLabScreen()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+ class DrivingSimulatorScreen extends StatefulWidget {
+  const DrivingSimulatorScreen({super.key});
+
+  @override
+  _DrivingSimulatorScreenState createState() => _DrivingSimulatorScreenState();
+}
+
+class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  // Load answer state from SharedPreferences
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("drivingsimulator_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  // Save answer state to SharedPreferences
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("drivingsimulator_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "B") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          SecondFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (SecondFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Second Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Second Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FirstFloorScreen()),
+                );
+              },
+              child: const Text("Go to 1st Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Driving Simulator Lab"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What room number is the Driving Simulator Lab? What major commonly uses it?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/drivingsimulator.jpg', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The Civil Engineering Driving Simulator Laboratory allows students and faculty to research driving behaviors, environments, and traffic..​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Second Floor Questions Answered: ${SecondFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Restore navigation arrows
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬇️", const BrookshireScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬆️", const BimLabScreen()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BrookshireScreen extends StatefulWidget {
+  const BrookshireScreen({super.key});
+
+  @override
+  _BrookshireScreenState createState() => _BrookshireScreenState();
+}
+
+class _BrookshireScreenState extends State<BrookshireScreen> {
+  final TextEditingController _answerController = TextEditingController();
+  String _message = "";
+  bool _isCorrect = false;
+  bool _alreadyAnswered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnswerState();
+  }
+
+  // Load answer state from SharedPreferences
+  void _loadAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? answered = prefs.getBool("brookshire_answered");
+    if (answered == true) {
+      setState(() {
+        _isCorrect = true;
+        _message = "Correct!";
+        _alreadyAnswered = true;
+      });
+    }
+  }
+
+  // Save answer state to SharedPreferences
+  void _saveAnswerState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("brookshire_answered", true);
+  }
+
+  void _checkAnswer() {
+    if (_answerController.text.trim().toUpperCase() == "B") {
+      setState(() {
+        if (!_alreadyAnswered) {
+          SecondFloorProgress.questionsAnswered++; // Increment only once
+          _alreadyAnswered = true;
+          _saveAnswerState(); // Save correct answer state
+        }
+        _isCorrect = true;
+        _message = "Correct!";
+      });
+
+      _checkCompletion(); // Check if all 11 questions are answered
+    } else {
+      setState(() {
+        _isCorrect = false;
+        _message = "Try again.";
+        _answerController.clear();
+      });
+    }
+  }
+
+  // Check if all first floor questions are completed
+  void _checkCompletion() {
+    if (SecondFloorProgress.isCompleted()) {
+      _showCompletionDialog();
+    }
+  }
+
+  // Completion pop-up
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Second Floor Completed! 🎉"),
+          content: const Text(
+              "You've completed all the questions for the Second Floor!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FirstFloorScreen()),
+                );
+              },
+              child: const Text("Go to 1st Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThirdFloorScreen()),
+                );
+              },
+              child: const Text("Go to 3rd Floor"),
+            ),
+            TextButton(
+              onPressed: () {
+                FirstFloorProgress.resetProgress();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Text("Restart"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Brookshire Student Service Suite"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "What room number is the Student Servuce Suite? What major commonly uses it?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                if (!_isCorrect) ...[
+                  TextField(
+                    controller: _answerController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your answer",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkAnswer,
+                    child: const Text("Submit"),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  _message,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _isCorrect ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (_isCorrect) ...[
+                  const SizedBox(height: 20),
+                  Image.asset('assets/brookshire.jpg', width: 300),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "The Office of Student Services provides many resources, as well as academic advisors, all of whom are licensed professional counselors, to help with things like changing majors, adding a minor, and verifying how course credits have transferred from other institutions..​",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Text(
+                  "Second Floor Questions Answered: ${SecondFloorProgress.questionsAnswered}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Restore navigation arrows
+          Align(
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬇️", const DrivingSimulatorScreen()),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬆️", const AnnexLabScreen()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SecondFloorProgress {
+  static int questionsAnswered = 0;
+  static const int totalQuestions = 5; // Total screens for the third floor
+
+  static bool isCompleted() {
+    return questionsAnswered >= totalQuestions;
+  }
+
+  static void resetProgress() {
+    questionsAnswered = 0;
+    _resetStoredProgress();
+  }
+
+  static void _resetStoredProgress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("bimlab_answered", false);
+    await prefs.setBool("protolab_answered", false);
+    await prefs.setBool("annexlab_answered", false);
+    await prefs.setBool("drivingsimulator_answered", false);
+    await prefs.setBool("brookshire_answered", false);
   }
 }
