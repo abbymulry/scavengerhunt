@@ -4592,7 +4592,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
                   Image.asset('assets/brookshire.jpg', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The Office of Student Services provides many resources, all of whom are licensed professional counselors, to help with things like changing majors, adding a minor, and verifying how course credits have transferred from other institutions..​",
+                    "The Office of Student Services provides many resources, to help with things like changing majors, adding a minor, and verifying how course credits have transferred from other institutions..​",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
