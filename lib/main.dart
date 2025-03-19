@@ -4401,7 +4401,7 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
                   Image.asset('assets/drivingsimulator.jpg', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The Civil Engineering Driving Simulator Laboratory allows students and faculty to research driving behaviors, environments, and traffic..​",
+                    "The Civil Engineering Driving Simulator Laboratory allows students and faculty to research driving behaviors and traffic..​",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
