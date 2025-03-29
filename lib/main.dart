@@ -88,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                               builder: (context) => const FirstFloorScreen()),
                         );
                       },
-                      child: const Text("Explore 1st Floor"),
+                      child: const Text("Explore the first floor"),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                                   const SecondFloorScreen()), // Update when SecondFloorScreen is ready
                         );
                       },
-                      child: const Text("Explore 2nd Floor"),
+                      child: const Text("Explore the second floor"),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
@@ -112,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                                   const ThirdFloorScreen()), // Now navigates to 3rd Floor!
                         );
                       },
-                      child: const Text("Explore 3rd Floor"),
+                      child: const Text("Explore the third floor"),
                     ),
                   ],
                 ),
@@ -145,6 +145,7 @@ class FirstFloorScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("First Floor Main Screen"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -215,7 +216,7 @@ class FirstFloorScreen extends StatelessWidget {
           const FloorMapButton(
             smallMapAsset: 'assets/pft1st.png',
             largeMapAsset: 'assets/pft1st.png',
-            floorName: "1st Floor Map",
+            floorName: "First Floor Map",
           ),
         ],
       ),
@@ -249,6 +250,7 @@ class SecondFloorScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Second Floor Main Screen"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -338,8 +340,9 @@ class ThirdFloorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Third Floor"),
+        title: const Text("Third Floor Main Screen"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Center(
         child: Column(
@@ -353,7 +356,7 @@ class ThirdFloorScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
-                "Welcome to the 3rd Floor! We are not going to make you follow this whole maze, so just find the following places!",
+                "Welcome to the Third Floor! We are not going to make you follow this whole maze, so just find the following places!",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -410,6 +413,7 @@ class GenericScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -634,7 +638,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       builder: (context) => const SecondFloorScreen()),
                 );
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -644,7 +648,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       builder: (context) => const ThirdFloorScreen()),
                 );
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -668,6 +672,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       appBar: AppBar(
         title: const Text("Restaurant"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -687,7 +692,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "What is the 7th letter of the restaurant that you are now approaching?\n(Hint: It is the first letter of the 2nd word).",
+                    "What is the seventh letter of the restaurant that you are now approaching?\n(Hint: It is the first letter of the 2nd word).",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
@@ -841,7 +846,7 @@ class _CenterForEngineeringEducationScreenState
                       builder: (context) => const SecondFloorScreen()),
                 );
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -851,7 +856,7 @@ class _CenterForEngineeringEducationScreenState
                       builder: (context) => const ThirdFloorScreen()),
                 );
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -875,6 +880,7 @@ class _CenterForEngineeringEducationScreenState
       appBar: AppBar(
         title: const Text("Center for Engineering Education"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -1045,7 +1051,7 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
                     MaterialPageRoute(
                         builder: (context) => const SecondFloorScreen()));
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1054,7 +1060,7 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1078,6 +1084,7 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
       appBar: AppBar(
         title: const Text("Auditoriums"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -1249,7 +1256,7 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
                       builder: (context) => const SecondFloorScreen()),
                 );
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1259,7 +1266,7 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
                       builder: (context) => const ThirdFloorScreen()),
                 );
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1283,6 +1290,7 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
       appBar: AppBar(
         title: const Text("Cambre Atrium"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -1454,7 +1462,7 @@ class _Room1200ScreenState extends State<Room1200Screen> {
                       builder: (context) => const SecondFloorScreen()),
                 );
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1464,7 +1472,7 @@ class _Room1200ScreenState extends State<Room1200Screen> {
                       builder: (context) => const ThirdFloorScreen()),
                 );
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1488,6 +1496,7 @@ class _Room1200ScreenState extends State<Room1200Screen> {
       appBar: AppBar(
         title: const Text("Room 1200"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -1658,7 +1667,7 @@ class _Room1202ScreenState extends State<Room1202Screen> {
                     MaterialPageRoute(
                         builder: (context) => const SecondFloorScreen()));
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1667,7 +1676,7 @@ class _Room1202ScreenState extends State<Room1202Screen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1691,6 +1700,7 @@ class _Room1202ScreenState extends State<Room1202Screen> {
       appBar: AppBar(
         title: const Text("Room 1202"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -1868,7 +1878,7 @@ class _SustainableLivingLabScreenState
                     MaterialPageRoute(
                         builder: (context) => const SecondFloorScreen()));
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1877,7 +1887,7 @@ class _SustainableLivingLabScreenState
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -1901,6 +1911,7 @@ class _SustainableLivingLabScreenState
       appBar: AppBar(
         title: const Text("Sustainable Living Lab"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -2071,7 +2082,7 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
                     MaterialPageRoute(
                         builder: (context) => const SecondFloorScreen()));
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2080,7 +2091,7 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2104,6 +2115,7 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
       appBar: AppBar(
         title: const Text("Zone 1100 Part 1"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -2278,7 +2290,7 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
                     MaterialPageRoute(
                         builder: (context) => const SecondFloorScreen()));
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2287,7 +2299,7 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2311,6 +2323,7 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
       appBar: AppBar(
         title: const Text("Zone 1100 Part 2"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -2364,7 +2377,7 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
                     Image.asset('assets/1101pt2.png', width: 300),
                     const SizedBox(height: 10),
                     const Text(
-                      "Students often customize signage or bulletin boards in fun ways — like adding googly eyes to signs. This brings a bit of humor and personality to the academic setting.",
+                      "Students often customize signage or bulletin boards in fun ways—like adding googly eyes to signs. This brings a bit of humor and personality to the academic setting.",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 18),
                     ),
@@ -2481,7 +2494,7 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
                     MaterialPageRoute(
                         builder: (context) => const SecondFloorScreen()));
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2490,7 +2503,7 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2514,6 +2527,7 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
       appBar: AppBar(
         title: const Text("1220s and Bathroom"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -2684,7 +2698,7 @@ class _CommonsScreenState extends State<CommonsScreen> {
                     MaterialPageRoute(
                         builder: (context) => const SecondFloorScreen()));
               },
-              child: const Text("Go to 2nd Floor"),
+              child: const Text("Go to Second Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2693,7 +2707,7 @@ class _CommonsScreenState extends State<CommonsScreen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -2717,6 +2731,7 @@ class _CommonsScreenState extends State<CommonsScreen> {
       appBar: AppBar(
         title: const Text("The Commons"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -2924,6 +2939,7 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
       appBar: AppBar(
         title: const Text("Alfredo Room"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -2966,7 +2982,7 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
                   Image.asset('assets/alfredo.png', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "Congratulations you found the Alfredo room. Select the back button to go back to the main 3rd floor screen.",
+                    "Congratulations you found the Alfredo room. Select the back button to go back to the main third floor screen.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -3086,6 +3102,7 @@ class _CEEScreenState extends State<CEEScreen> {
       appBar: AppBar(
         title: const Text("Civil & Environmental Engineering"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -3248,6 +3265,7 @@ class _MIEScreenState extends State<MIEScreen> {
       appBar: AppBar(
         title: const Text("Mechanical & Industrial Engineering"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -3410,6 +3428,7 @@ class _CMScreenState extends State<CMScreen> {
       appBar: AppBar(
         title: const Text("Construction Management"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -3572,6 +3591,7 @@ class _EECSScreenState extends State<EECSScreen> {
       appBar: AppBar(
         title: const Text("Electrical Engineering & Computer Science"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -3734,6 +3754,7 @@ class _ChEScreenState extends State<ChEScreen> {
       appBar: AppBar(
         title: const Text("Chemical Engineering"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -3896,6 +3917,7 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
       appBar: AppBar(
         title: const Text("Elevators"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
       ),
       body: Stack(
         children: [
@@ -4055,7 +4077,7 @@ class _BimLabScreenState extends State<BimLabScreen> {
                       builder: (context) => const FirstFloorScreen()),
                 );
               },
-              child: const Text("Go to 1st Floor"),
+              child: const Text("Go to First Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4065,7 +4087,7 @@ class _BimLabScreenState extends State<BimLabScreen> {
                       builder: (context) => const ThirdFloorScreen()),
                 );
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4089,6 +4111,7 @@ class _BimLabScreenState extends State<BimLabScreen> {
       appBar: AppBar(
         title: const Text("Bim Lab"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4256,7 +4279,7 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
                       builder: (context) => const FirstFloorScreen()),
                 );
               },
-              child: const Text("Go to 1st Floor"),
+              child: const Text("Go to First Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4266,7 +4289,7 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
                       builder: (context) => const ThirdFloorScreen()),
                 );
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4290,6 +4313,7 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
       appBar: AppBar(
         title: const Text("Proto Lab"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4456,7 +4480,7 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
                     MaterialPageRoute(
                         builder: (context) => const FirstFloorScreen()));
               },
-              child: const Text("Go to 1st Floor"),
+              child: const Text("Go to Firstt Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4465,7 +4489,7 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4487,8 +4511,9 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Annex/ Drilling Fluid Lab"),
+        title: const Text("Annex/Drilling Fluid Lab"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4655,7 +4680,7 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
                     MaterialPageRoute(
                         builder: (context) => const FirstFloorScreen()));
               },
-              child: const Text("Go to 1st Floor"),
+              child: const Text("Go to First Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4664,7 +4689,7 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4688,6 +4713,7 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
       appBar: AppBar(
         title: const Text("Civil Engineering Driving Simulator"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4854,7 +4880,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
                     MaterialPageRoute(
                         builder: (context) => const FirstFloorScreen()));
               },
-              child: const Text("Go to 1st Floor"),
+              child: const Text("Go to First Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4863,7 +4889,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
                     MaterialPageRoute(
                         builder: (context) => const ThirdFloorScreen()));
               },
-              child: const Text("Go to 3rd Floor"),
+              child: const Text("Go to Third Floor"),
             ),
             TextButton(
               onPressed: () {
@@ -4887,6 +4913,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
       appBar: AppBar(
         title: const Text("Brookshire Student Service Suite"),
         backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
