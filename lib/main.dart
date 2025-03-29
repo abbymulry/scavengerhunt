@@ -13,7 +13,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Abby and Thomas\' Tour of PFT',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme(
+          primary: Color(0xFF461D7C),
+          onPrimary: Color(0xFFF1EEDB),
+          secondary: Color(0xFFF1EEDB),
+          onSecondary: Color(0xFF461D7C),
+          brightness: Brightness.light,
+          error: Color(0xFFA39AAC),
+          onError: Color(0xFF333333),
+          surface:Colors.white,
+          onSurface: Color(0xFF461D7C)
+
+        ),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
@@ -29,7 +40,8 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Abby and Thomas' Tour of PFT"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
+        foregroundColor: Color(0xFFF1EEDB)
       ),
       body: Center(
         child: Column(
@@ -39,7 +51,7 @@ class HomeScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
@@ -132,7 +144,7 @@ class FirstFloorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("First Floor Main Screen"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -236,7 +248,7 @@ class SecondFloorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Second Floor Main Screen"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -327,7 +339,7 @@ class ThirdFloorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Third Floor"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Center(
         child: Column(
@@ -337,7 +349,7 @@ class ThirdFloorScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
@@ -397,7 +409,7 @@ class GenericScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -530,7 +542,7 @@ class FloorProgressBar extends StatelessWidget {
         LinearProgressIndicator(
           value: fraction,
           minHeight: 10,
-          backgroundColor: Colors.grey,
+          backgroundColor: Color(0xFF461D7C),
           valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
         ),
       ],
@@ -655,13 +667,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Restaurant"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Color(0xFF461D7C),
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -862,13 +874,13 @@ class _CenterForEngineeringEducationScreenState
     return Scaffold(
       appBar: AppBar(
         title: const Text("Center for Engineering Education"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Color(0xFF461D7C),
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -1065,13 +1077,13 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Auditoriums"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -1270,13 +1282,13 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cambre Atrium"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -1475,13 +1487,13 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Room 1200"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -1678,13 +1690,13 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Room 1202"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -1888,13 +1900,13 @@ class _SustainableLivingLabScreenState
     return Scaffold(
       appBar: AppBar(
         title: const Text("Sustainable Living Lab"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -2091,13 +2103,13 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Zone 1100 Part 1"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -2298,13 +2310,13 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Zone 1100 Part 2"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -2501,13 +2513,13 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("1220s and Bathroom"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -2704,13 +2716,13 @@ class _CommonsScreenState extends State<CommonsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("The Commons"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
             value: FirstFloorProgress.questionsAnswered /
                 FirstFloorProgress.totalQuestions,
-            backgroundColor: Colors.deepPurple.shade100,
+            backgroundColor: Colors.white,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
           ),
         ),
@@ -2911,7 +2923,7 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Alfredo Room"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -3073,7 +3085,7 @@ class _CEEScreenState extends State<CEEScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Civil & Environmental Engineering"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -3235,7 +3247,7 @@ class _MIEScreenState extends State<MIEScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mechanical & Industrial Engineering"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -3397,7 +3409,7 @@ class _CMScreenState extends State<CMScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Construction Management"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -3559,7 +3571,7 @@ class _EECSScreenState extends State<EECSScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Electrical Engineering & Computer Science"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -3721,7 +3733,7 @@ class _ChEScreenState extends State<ChEScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Chemical Engineering"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -3883,7 +3895,7 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Elevators"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
       ),
       body: Stack(
         children: [
@@ -4076,7 +4088,7 @@ class _BimLabScreenState extends State<BimLabScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Bim Lab"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4277,7 +4289,7 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Proto Lab"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4476,7 +4488,7 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Annex/ Drilling Fluid Lab"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4675,7 +4687,7 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Civil Engineering Driving Simulator"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -4874,7 +4886,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Brookshire Student Service Suite"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color(0xFF461D7C),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
