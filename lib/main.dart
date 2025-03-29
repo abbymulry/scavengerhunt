@@ -21,66 +21,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class FloorMapButton extends StatelessWidget {
-  final String smallMapAsset;
-  final String largeMapAsset;
-  final String floorName;
-
-  const FloorMapButton({
-    Key? key,
-    required this.smallMapAsset,
-    required this.largeMapAsset,
-    required this.floorName,
-  }) : super(key: key);
-
-  void _showLargeMap(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          child: Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                child: Image.asset(largeMapAsset, fit: BoxFit.contain),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 16,
-      right: 16,
-      child: GestureDetector(
-        onTap: () => _showLargeMap(context),
-        child: Column(
-          children: [
-            Image.asset(smallMapAsset, width: 60, height: 60),
-            const SizedBox(height: 4),
-            Text(
-              floorName,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -193,54 +133,73 @@ class FirstFloorScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("First Floor Main Screen"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
-          // Existing content: images, buttons, etc.
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Column with navigation buttons
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Choose your starting point",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 20),
-                    // Buttons linking to 11 new screens
-                    buildNavButton(
-                        context, "Restaurant", const RestaurantScreen()),
-                    buildNavButton(context, "Center for Engineering Education",
-                        const CenterForEngineeringEducationScreen()),
-                    buildNavButton(
-                        context, "Auditoriums", const AuditoriumsScreen()),
-                    buildNavButton(
-                        context, "Cambre Atrium", const CambreAtriumScreen()),
-                    buildNavButton(context, "1200", const Room1200Screen()),
-                    buildNavButton(context, "1202", const Room1202Screen()),
-                    buildNavButton(context, "Sustainable Living Lab",
-                        const SustainableLivingLabScreen()),
-                    buildNavButton(context, "Zone 1100 Part 1",
-                        const Zone1100Part1Screen()),
-                    buildNavButton(context, "Zone 1100 Part 2",
-                        const Zone1100Part2Screen()),
-                    buildNavButton(
-                        context, "1220s and Bathroom", const Room1220sScreen()),
-                    buildNavButton(
-                        context, "The Commons", const CommonsScreen()),
-                  ],
+                // Button column wrapped in Flexible.
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Choose your starting point",
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      buildNavButton(
+                          context, "Restaurant", const RestaurantScreen()),
+                      buildNavButton(
+                          context,
+                          "Center for Engineering Education",
+                          const CenterForEngineeringEducationScreen()),
+                      buildNavButton(
+                          context, "Auditoriums", const AuditoriumsScreen()),
+                      buildNavButton(
+                          context, "Cambre Atrium", const CambreAtriumScreen()),
+                      buildNavButton(context, "1200", const Room1200Screen()),
+                      buildNavButton(context, "1202", const Room1202Screen()),
+                      buildNavButton(context, "Sustainable Living Lab",
+                          const SustainableLivingLabScreen()),
+                      buildNavButton(context, "Zone 1100 Part 1",
+                          const Zone1100Part1Screen()),
+                      buildNavButton(context, "Zone 1100 Part 2",
+                          const Zone1100Part2Screen()),
+                      buildNavButton(context, "1220s and Bathroom",
+                          const Room1220sScreen()),
+                      buildNavButton(
+                          context, "The Commons", const CommonsScreen()),
+                    ],
+                  ),
                 ),
-                const SizedBox(width: 50),
-                Image.asset('assets/pft1st.png', width: 700, height: 700),
+                const SizedBox(width: 20),
+                // Image wrapped in Flexible.
+                Flexible(
+                  flex: 1,
+                  child: Image.asset(
+                    'assets/pft1st.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ],
             ),
           ),
-          // Floor map button at the top right using "pft1st.png"
           const FloorMapButton(
             smallMapAsset: 'assets/pft1st.png',
             largeMapAsset: 'assets/pft1st.png',
@@ -251,7 +210,6 @@ class FirstFloorScreen extends StatelessWidget {
     );
   }
 
-  // Helper method for buttons
   Widget buildNavButton(BuildContext context, String title, Widget screen) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -277,53 +235,85 @@ class SecondFloorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Second Floor"),
+        title: const Text("Second Floor Main Screen"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: SecondFloorProgress.questionsAnswered /
+                SecondFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          Center(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Choose your starting point",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                // Buttons column
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Choose your starting point",
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      buildNavButton(context, "BIM Lab", const BimLabScreen()),
+                      buildNavButton(
+                          context, "Proto Lab", const ProtoLabScreen()),
+                      buildNavButton(context, "Annex/Drilling Fluids Lab",
+                          const AnnexLabScreen()),
+                      buildNavButton(context, "Driving Simulator",
+                          const DrivingSimulatorScreen()),
+                      buildNavButton(context, "Brookshire Suite",
+                          const BrookshireScreen()),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 20),
-                // Buttons linking to 11 new screens
-                buildNavButton(context, "Bim Lab", const BimLabScreen()),
-                buildNavButton(context, "ProtoLab", const ProtoLabScreen()),
-                buildNavButton(context, "Annex/ Drilling Fluid Lab",
-                    const AnnexLabScreen()),
-                buildNavButton(context, "Civil Engineering Driving Simulator",
-                    const DrivingSimulatorScreen()),
-                buildNavButton(context, "Brookshire Student Service Suite",
-                    const BrookshireScreen()),
+                const SizedBox(width: 20),
+                // Floor map image
+                Flexible(
+                  flex: 1,
+                  child: Image.asset(
+                    'assets/secondfloorlayout.jpg',
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ],
             ),
-            const SizedBox(width: 50),
-            Image.asset('assets/secondfloorlayout.jpg',
-                width: 700, height: 700),
-          ],
-        ),
+          ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/secondfloorlayout.jpg',
+            largeMapAsset: 'assets/secondfloorlayout.jpg',
+            floorName: "2nd Floor Map",
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildNavButton(BuildContext context, String label, Widget screen) {
+  Widget buildNavButton(BuildContext context, String title, Widget screen) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => screen),
-          );
+              context, MaterialPageRoute(builder: (context) => screen));
         },
-        child: Text(label),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+          textStyle: const TextStyle(fontSize: 18),
+        ),
+        child: Text(title),
       ),
     );
   }
@@ -453,7 +443,104 @@ class GenericScreen extends StatelessWidget {
   }
 }
 
-// Creating each of the 11 screens
+// Make sure the following FloorMapButton widget is defined above this screen in your file:
+class FloorMapButton extends StatelessWidget {
+  final String smallMapAsset;
+  final String largeMapAsset;
+  final String floorName;
+
+  const FloorMapButton({
+    Key? key,
+    required this.smallMapAsset,
+    required this.largeMapAsset,
+    required this.floorName,
+  }) : super(key: key);
+
+  void _showLargeMap(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Image.asset(largeMapAsset, fit: BoxFit.contain),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 16,
+      right: 16,
+      child: GestureDetector(
+        onTap: () => _showLargeMap(context),
+        child: Column(
+          children: [
+            Image.asset(smallMapAsset, width: 60, height: 60),
+            const SizedBox(height: 4),
+            Text(
+              floorName,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FloorProgressBar extends StatelessWidget {
+  final int progress;
+  final int total;
+  final String floorName;
+
+  const FloorProgressBar({
+    Key? key,
+    required this.progress,
+    required this.total,
+    required this.floorName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double fraction = total > 0 ? progress / total : 0.0;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "$floorName Progress: $progress / $total",
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4),
+        LinearProgressIndicator(
+          value: fraction,
+          minHeight: 10,
+          backgroundColor: Colors.grey,
+          valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+        ),
+      ],
+    );
+  }
+}
+
+// -----------------------
+// RestaurantScreen
+// -----------------------
 class RestaurantScreen extends StatefulWidget {
   const RestaurantScreen({super.key});
 
@@ -473,7 +560,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("restaurant_answered");
@@ -486,7 +572,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("restaurant_answered", true);
@@ -496,15 +581,14 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     if (_answerController.text.trim().toUpperCase() == "B") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -514,14 +598,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -574,63 +656,74 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       appBar: AppBar(
         title: const Text("Restaurant"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "What is the 7th letter of the restaurant that you are now approaching?\n(Hint: It is the first letter of the 2nd word).",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "What is the 7th letter of the restaurant that you are now approaching?\n(Hint: It is the first letter of the 2nd word).",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/panera.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Panera Bread opened in LSU's Patrick F. Taylor Hall on August 13, 2018, offering students and faculty convenient access to freshly baked goods, soups, salads, and sandwiches...",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/panera.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "​Panera Bread opened in LSU's Patrick F. Taylor Hall on August 13, 2018, offering students and faculty convenient access to freshly baked goods, soups, salads, and sandwiches. Notably, this location was the first on campus to feature kiosk ordering stations, reducing wait times and enhancing the dining experience. Its presence makes Patrick F. Taylor Hall one of the few academic buildings at LSU with an in-house dining option, providing a unique blend of academic and culinary amenities.​",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
             child: NavButton(context, "⬅️", const Room1220sScreen()),
@@ -639,12 +732,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const CommonsScreen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// CenterForEngineeringEducationScreen
+// -----------------------
 class CenterForEngineeringEducationScreen extends StatefulWidget {
   const CenterForEngineeringEducationScreen({super.key});
 
@@ -666,7 +767,6 @@ class _CenterForEngineeringEducationScreenState
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("center_for_engineering_answered");
@@ -679,7 +779,6 @@ class _CenterForEngineeringEducationScreenState
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("center_for_engineering_answered", true);
@@ -689,15 +788,14 @@ class _CenterForEngineeringEducationScreenState
     if (_answerController.text.trim().toUpperCase() == "CHEVRON") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -707,14 +805,12 @@ class _CenterForEngineeringEducationScreenState
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -767,63 +863,74 @@ class _CenterForEngineeringEducationScreenState
       appBar: AppBar(
         title: const Text("Center for Engineering Education"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Who is the sponsor for the center for engineering education, which is located in PFT 1269?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Who is the sponsor for the center for engineering education, which is located in PFT 1269?",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/chev.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "The Chevron Center for Engineering Education, located in LSU's Patrick F. Taylor Hall, serves as a hub for enhancing engineering students' communication and technical skills...",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/chev.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "​The Chevron Center for Engineering Education, located within LSU's Patrick F. Taylor Hall, serves as a hub for enhancing engineering students' communication and technical skills. The center offers resources such as 3D printers, scanners, and a computer lab, supporting various academic projects. Additionally, it provides access to Communication-Intensive courses, study abroad opportunities through the Geaux Global Program, and guidance for students aiming to become LSU Distinguished Communicators.​",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const CommonsScreen()),
@@ -832,12 +939,20 @@ class _CenterForEngineeringEducationScreenState
             alignment: Alignment.centerLeft,
             child: NavButton(context, "⬅️", const Room1202Screen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// AuditoriumsScreen
+// -----------------------
 class AuditoriumsScreen extends StatefulWidget {
   const AuditoriumsScreen({super.key});
 
@@ -857,7 +972,6 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("auditoriums_answered");
@@ -870,7 +984,6 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("auditoriums_answered", true);
@@ -880,15 +993,14 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     if (_answerController.text.trim().toUpperCase() == "TV") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -898,14 +1010,12 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -919,20 +1029,18 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SecondFloorScreen()));
               },
               child: const Text("Go to 2nd Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -940,9 +1048,9 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -958,74 +1066,86 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
       appBar: AppBar(
         title: const Text("Auditoriums"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "On the wall on the left of the big auditorium, how can you get news on current events? (Hint: this should be two letters)",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "On the wall on the left of the big auditorium, how can you get news on current events? (Hint: this should be two letters)",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/audit.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Located outside the auditoriums in LSU's Patrick F. Taylor Hall, televisions display news covering politics, sports, and campus events...",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/audit.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "​Located outside the auditoriums in LSU's Patrick F. Taylor Hall, televisions display news covering politics, sports, and campus events. These screens keep students and faculty informed about current affairs and university happenings. This integration of information technology enhances the academic environment by fostering awareness and engagement within the campus community.​",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
-            alignment: Alignment.topLeft,
-            child: NavButton(context, "↖️", const Zone1100Part1Screen()),
+            alignment: Alignment.centerLeft,
+            child: NavButton(context, "⬅️", const Room1220sScreen()),
           ),
           Align(
-            alignment: Alignment.topCenter,
-            child: NavButton(context, "⬆️", const Room1202Screen()),
+            alignment: Alignment.bottomCenter,
+            child: NavButton(context, "⬇️", const CommonsScreen()),
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: NavButton(context, "➡️", const Room1200Screen()),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
           ),
         ],
       ),
@@ -1033,6 +1153,9 @@ class _AuditoriumsScreenState extends State<AuditoriumsScreen> {
   }
 }
 
+// -----------------------
+// CambreAtriumScreen
+// -----------------------
 class CambreAtriumScreen extends StatefulWidget {
   const CambreAtriumScreen({super.key});
 
@@ -1052,7 +1175,6 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("cambre_atrium_answered");
@@ -1065,7 +1187,6 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("cambre_atrium_answered", true);
@@ -1075,15 +1196,14 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     if (_answerController.text.trim() == "5") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Congrats!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -1093,14 +1213,12 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -1153,63 +1271,74 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
       appBar: AppBar(
         title: const Text("Cambre Atrium"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "How many tables are there in the Cambre Atrium for studying?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "How many tables are there in the Cambre Atrium for studying?",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/cambre.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "The Cambre Atrium in LSU's Patrick F. Taylor Hall serves as a central connector between the original structure and a newly constructed three-story laboratory annex...",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/cambre.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "The Cambre Atrium in LSU's Patrick F. Taylor Hall serves as a central connector between the original structure and a newly constructed three-story laboratory annex. Lined with 30 classrooms accommodating 30 to 150 seats each, it also houses the RoyOMartin Auditorium, which seats up to 250 people. This expansive space is one of three main common areas in the building, designed to foster student interaction and collaboration.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const SustainableLivingLabScreen()),
@@ -1218,12 +1347,20 @@ class _CambreAtriumScreenState extends State<CambreAtriumScreen> {
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const Zone1100Part2Screen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// Room1200Screen
+// -----------------------
 class Room1200Screen extends StatefulWidget {
   const Room1200Screen({super.key});
 
@@ -1243,7 +1380,6 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("room1200_answered");
@@ -1256,7 +1392,6 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1200_answered", true);
@@ -1266,15 +1401,14 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     if (_answerController.text.trim().toUpperCase() == "RENE") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -1284,14 +1418,12 @@ class _Room1200ScreenState extends State<Room1200Screen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -1344,63 +1476,74 @@ class _Room1200ScreenState extends State<Room1200Screen> {
       appBar: AppBar(
         title: const Text("Room 1200"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "What is the first name on the purple plaque that is right outside of room 1200?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "What is the first name on the purple plaque that is right outside of room 1200?",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/1200.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Room 1200 in LSU's Patrick F. Taylor Hall is a general-purpose classroom with a seating capacity of 150. Located within the 1200 Zone of the building...",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/1200.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Room 1200 in LSU's Patrick F. Taylor Hall is a general-purpose classroom with a seating capacity of 150. Located within the 1200 Zone of the building, it is accessible via the North, South, and West entrances. This room is equipped with multimedia capabilities, including HDMI input, and offers features such as a microphone system, Turning Point Clicker availability upon request, and lecture capture services.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
             child: NavButton(context, "⬅️", const AuditoriumsScreen()),
@@ -1409,12 +1552,20 @@ class _Room1200ScreenState extends State<Room1200Screen> {
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const Room1202Screen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// Room1202Screen
+// -----------------------
 class Room1202Screen extends StatefulWidget {
   const Room1202Screen({super.key});
 
@@ -1434,7 +1585,6 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("room1202_answered");
@@ -1447,7 +1597,6 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1202_answered", true);
@@ -1457,15 +1606,14 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     if (_answerController.text.trim().toUpperCase() == "FAVRE") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -1475,14 +1623,12 @@ class _Room1202ScreenState extends State<Room1202Screen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -1496,20 +1642,18 @@ class _Room1202ScreenState extends State<Room1202Screen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SecondFloorScreen()));
               },
               child: const Text("Go to 2nd Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -1517,9 +1661,9 @@ class _Room1202ScreenState extends State<Room1202Screen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -1535,63 +1679,74 @@ class _Room1202ScreenState extends State<Room1202Screen> {
       appBar: AppBar(
         title: const Text("Room 1202"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "There is a wall of names outside of Room 1202. What is the last name of the person in the top left gold plate?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "There is a wall of names outside of Room 1202. What is the last name of the person in the top left gold plate?",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/1202.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "The Donor Wall (outside of Room 1202) in LSU's Patrick F. Taylor Hall is located across from the RoyOMartin Auditorium. It honors donors who supported the building’s renovation and expansion.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/1202.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "The Donor Wall (outside of Room 1202) in LSU's Patrick F. Taylor Hall is prominently located across from the RoyOMartin Auditorium within the Cambre Atrium. This installation honors the generous contributions of individual donors and industry partners who, alongside funding from the state of Louisiana, played a pivotal role in the building's renovation and expansion.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const Room1200Screen()),
@@ -1605,12 +1760,20 @@ class _Room1202ScreenState extends State<Room1202Screen> {
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const Zone1100Part1Screen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// SustainableLivingLabScreen
+// -----------------------
 class SustainableLivingLabScreen extends StatefulWidget {
   const SustainableLivingLabScreen({super.key});
 
@@ -1632,7 +1795,6 @@ class _SustainableLivingLabScreenState
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("sustainable_lab_answered");
@@ -1645,7 +1807,6 @@ class _SustainableLivingLabScreenState
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("sustainable_lab_answered", true);
@@ -1655,15 +1816,14 @@ class _SustainableLivingLabScreenState
     if (_answerController.text.trim().toUpperCase() == "BASF") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -1673,14 +1833,12 @@ class _SustainableLivingLabScreenState
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -1694,20 +1852,18 @@ class _SustainableLivingLabScreenState
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SecondFloorScreen()));
               },
               child: const Text("Go to 2nd Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -1715,9 +1871,9 @@ class _SustainableLivingLabScreenState
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -1733,63 +1889,74 @@ class _SustainableLivingLabScreenState
       appBar: AppBar(
         title: const Text("Sustainable Living Lab"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Which company sponsors this lab?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Which company sponsors this lab?",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/BASF.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "The BASF Sustainable Living Laboratory, established in 2017 within LSU's Patrick F. Taylor Hall, is an innovative space promoting problem-based teaching and research focused on sustainable solutions to global challenges.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/BASF.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "​The BASF Sustainable Living Laboratory, established in 2017 within LSU's Patrick F. Taylor Hall, is an innovative space promoting problem-based teaching and research focused on sustainable solutions to global challenges. Funded by a 1 million dollar donation from BASF, the lab has facilitated research projects such as developing portable water filtration systems using visible sunlight and creating new functional polymers and nanoscale composites for various applications. Notably, the lab's construction incorporated BASF products, including ceiling tiles, flooring, and wall paint, and features a state-of-the-art communication system that enables virtual participation through webcasting technology.​",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const CambreAtriumScreen()),
@@ -1798,12 +1965,20 @@ class _SustainableLivingLabScreenState
             alignment: Alignment.centerRight,
             child: NavButton(context, "➡️", const Room1220sScreen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// Zone1100Part1Screen
+// -----------------------
 class Zone1100Part1Screen extends StatefulWidget {
   const Zone1100Part1Screen({super.key});
 
@@ -1823,7 +1998,6 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("zone1100part1_answered");
@@ -1836,7 +2010,6 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("zone1100part1_answered", true);
@@ -1846,15 +2019,14 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
     if (_answerController.text.trim().toUpperCase() == "VENDING") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -1864,14 +2036,12 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -1885,20 +2055,18 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SecondFloorScreen()));
               },
               child: const Text("Go to 2nd Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -1906,9 +2074,9 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -1924,63 +2092,74 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
       appBar: AppBar(
         title: const Text("Zone 1100 Part 1"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Moving up from the previous auditorium and rooms, there is a Zone 1100 sign on the left. What is the word below 1114-1154?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Moving up from the previous auditorium and rooms, there is a Zone 1100 sign on the left. What is the word below 1114-1154?",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/1101pt1.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "LSU offers over 300 vending machines across campus, providing snacks, drinks, and school supplies using TigerCASH or cards.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/1100pt1.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Louisiana State University (LSU) offers over 300 vending machines across its campus, providing snacks, beverages, and essential academic supplies like Scantrons and bluebooks. These machines accept various payment methods, including cash, credit cards, and TigerCASH—a campus-specific currency linked to student IDs. Notable vending locations include the LSU Library, Nicholson Hall, Himes Hall, Lockett Hall lounge (3rd floor), Audubon Hall basement, Hodges Hall, J.C. Miller Hall (1st floor hallway), Stubbs Hall, Coates Hall, Chopin Hall, LSU Student Union, and the Design Building Atrium Cafe.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const Zone1100Part2Screen()),
@@ -1993,12 +2172,20 @@ class _Zone1100Part1ScreenState extends State<Zone1100Part1Screen> {
             alignment: Alignment.bottomRight,
             child: NavButton(context, "↘️", const Room1202Screen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// Zone1100Part2Screen
+// -----------------------
 class Zone1100Part2Screen extends StatefulWidget {
   const Zone1100Part2Screen({super.key});
 
@@ -2018,7 +2205,6 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("zone1100part2_answered");
@@ -2031,7 +2217,6 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("zone1100part2_answered", true);
@@ -2041,15 +2226,14 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
     if (_answerController.text.trim().toUpperCase() == "GOOGLY") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -2059,14 +2243,12 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -2080,20 +2262,18 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SecondFloorScreen()));
               },
               child: const Text("Go to 2nd Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -2101,9 +2281,9 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -2119,63 +2299,74 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
       appBar: AppBar(
         title: const Text("Zone 1100 Part 2"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Moving up from the first sign there is another one, this one has something unique about it? (Hint: _____ eyes)",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Moving up from the first sign there is another one, this one has something unique about it? (Hint: _____ eyes)",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/1101pt2.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Students often customize signage or bulletin boards in fun ways — like adding googly eyes to signs. This brings a bit of humor and personality to the academic setting.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/1101pt2.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Balancing academics and personal life is a common challenge for LSU students, with experiences varying based on individual circumstances and academic paths. For example, one student noted that their freshman year in engineering 'wasn't too bad,' but acknowledged that workload and free time can differ significantly among students. To support students in achieving a healthy work-life balance, LSU offers resources such as the 'Work-Life Balance for Women in Business' course, which addresses stress management and productivity enhancement. Additionally, students like Flau'jae Johnson exemplify balancing multiple commitments, managing both academic responsibilities and a burgeoning music career.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const CambreAtriumScreen()),
@@ -2184,12 +2375,20 @@ class _Zone1100Part2ScreenState extends State<Zone1100Part2Screen> {
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const Zone1100Part1Screen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// Room1220sScreen
+// -----------------------
 class Room1220sScreen extends StatefulWidget {
   const Room1220sScreen({super.key});
 
@@ -2209,7 +2408,6 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("room1220s_answered");
@@ -2222,7 +2420,6 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("room1220s_answered", true);
@@ -2232,15 +2429,14 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     if (_answerController.text.trim().toUpperCase() == "CAPSTONE GALLERY") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -2250,14 +2446,12 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -2271,20 +2465,18 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SecondFloorScreen()));
               },
               child: const Text("Go to 2nd Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -2292,9 +2484,9 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -2310,63 +2502,74 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
       appBar: AppBar(
         title: const Text("1220s and Bathroom"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Right before you get to the bathroom, there is a sign above your head, what is the location at the bottom left of the sign? (Hint: two words)",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Right before you get to the bathroom, there is a sign above your head, what is the location at the bottom left of the sign? (Hint: two words)",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/bathroom.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Patrick F. Taylor Hall at LSU offers well-maintained restroom facilities on each floor, conveniently located near classrooms and common areas. The second-floor bathrooms are particularly noted for their cleanliness and low foot traffic, making them a preferred choice for many students.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/bathroom.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "​Patrick F. Taylor Hall at LSU offers well-maintained restroom facilities on each floor, conveniently located near classrooms and common areas. The second-floor bathrooms are particularly noted for their cleanliness and low foot traffic, making them a preferred choice for many students.​",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
             child: NavButton(context, "⬅️", const SustainableLivingLabScreen()),
@@ -2375,12 +2578,20 @@ class _Room1220sScreenState extends State<Room1220sScreen> {
             alignment: Alignment.centerRight,
             child: NavButton(context, "➡️", const RestaurantScreen()),
           ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
         ],
       ),
     );
   }
 }
 
+// -----------------------
+// CommonsScreen
+// -----------------------
 class CommonsScreen extends StatefulWidget {
   const CommonsScreen({super.key});
 
@@ -2400,7 +2611,6 @@ class _CommonsScreenState extends State<CommonsScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("commons_answered");
@@ -2413,7 +2623,6 @@ class _CommonsScreenState extends State<CommonsScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("commons_answered", true);
@@ -2423,15 +2632,14 @@ class _CommonsScreenState extends State<CommonsScreen> {
     if (_answerController.text.trim().toUpperCase() == "TAU BETA PI") {
       setState(() {
         if (!_alreadyAnswered) {
-          FirstFloorProgress.questionsAnswered++; // Increment only once
+          FirstFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -2441,14 +2649,12 @@ class _CommonsScreenState extends State<CommonsScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (FirstFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -2462,20 +2668,18 @@ class _CommonsScreenState extends State<CommonsScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SecondFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SecondFloorScreen()));
               },
               child: const Text("Go to 2nd Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -2483,9 +2687,9 @@ class _CommonsScreenState extends State<CommonsScreen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -2501,63 +2705,74 @@ class _CommonsScreenState extends State<CommonsScreen> {
       appBar: AppBar(
         title: const Text("The Commons"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: FirstFloorProgress.questionsAnswered /
+                FirstFloorProgress.totalQuestions,
+            backgroundColor: Colors.deepPurple.shade100,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+          ),
+        ),
       ),
       body: Stack(
         children: [
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "There is a plaque on a statue in the common area between the two sets of stairs. What is the name of the honor society on the plaque?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (!_isCorrect) ...[
-                  TextField(
-                    controller: _answerController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "There is a plaque on a statue in the common area between the two sets of stairs. What is the name of the honor society on the plaque?",
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Enter your answer",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  if (!_isCorrect) ...[
+                    TextField(
+                      controller: _answerController,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your answer",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _checkAnswer,
+                      child: const Text("Submit"),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _message,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _checkAnswer,
-                    child: const Text("Submit"),
-                  ),
-                ],
-                const SizedBox(height: 20),
-                Text(
-                  _message,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (_isCorrect) ...[
+                  if (_isCorrect) ...[
+                    const SizedBox(height: 20),
+                    Image.asset('assets/commons.png', width: 300),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "The Commons in LSU's Patrick F. Taylor Hall serves as the building's main gathering space, fostering collaboration and interaction among students and faculty. This atrium area features a Panera Bread café, providing convenient dining options within the academic setting. Adjacent to The Commons is the Dow Student Leadership Incubator, which supports over 40 engineering student organizations, enhancing leadership development and community engagement.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                   const SizedBox(height: 20),
-                  Image.asset('assets/commons.png', width: 300),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "The Commons in LSU's Patrick F. Taylor Hall serves as the building's main gathering space, fostering collaboration and interaction among students and faculty. This atrium area features a Panera Bread café, providing convenient dining options within the academic setting. Adjacent to The Commons is the Dow Student Leadership Incubator, which supports over 40 engineering student organizations, enhancing leadership development and community engagement.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
-                const SizedBox(height: 20),
-                Text(
-                  "First Floor Questions Answered: ${FirstFloorProgress.questionsAnswered}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(
@@ -2566,6 +2781,11 @@ class _CommonsScreenState extends State<CommonsScreen> {
           Align(
             alignment: Alignment.topCenter,
             child: NavButton(context, "⬆️", const RestaurantScreen()),
+          ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
           ),
         ],
       ),
@@ -3732,26 +3952,12 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
 
 class ThirdFloorProgress {
   static int questionsAnswered = 0;
-  static const int totalQuestions = 7; // Total screens for the third floor
-
-  static bool isCompleted() {
-    return questionsAnswered >= totalQuestions;
-  }
-
-  static void resetProgress() {
-    questionsAnswered = 0;
-    _resetStoredProgress();
-  }
-
-  static void _resetStoredProgress() async {
+  static const int totalQuestions = 7; // adjust as needed
+  static bool isCompleted() => questionsAnswered >= totalQuestions;
+  static void resetProgress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("alfredo_answered", false);
-    await prefs.setBool("cee_answered", false);
-    await prefs.setBool("mie_answered", false);
-    await prefs.setBool("cm_answered", false);
-    await prefs.setBool("eecs_answered", false);
-    await prefs.setBool("che_answered", false);
-    await prefs.setBool("elevators_answered", false);
+    questionsAnswered = 0;
+    // Reset any third floor related prefs here.
   }
 }
 
@@ -3774,7 +3980,6 @@ class _BimLabScreenState extends State<BimLabScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("bimlab_answered");
@@ -3787,7 +3992,6 @@ class _BimLabScreenState extends State<BimLabScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("bimlab_answered", true);
@@ -3795,18 +3999,17 @@ class _BimLabScreenState extends State<BimLabScreen> {
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() ==
-        "2348 and construction management") {
+        "2348 AND CONSTRUCTION MANAGEMENT") {
       setState(() {
         if (!_alreadyAnswered) {
-          SecondFloorProgress.questionsAnswered++; // Increment only once
+          SecondFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -3816,14 +4019,12 @@ class _BimLabScreenState extends State<BimLabScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (SecondFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -3876,6 +4077,16 @@ class _BimLabScreenState extends State<BimLabScreen> {
       appBar: AppBar(
         title: const Text("Bim Lab"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: SecondFloorProgress.questionsAnswered /
+                SecondFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -3918,7 +4129,7 @@ class _BimLabScreenState extends State<BimLabScreen> {
                   Image.asset('assets/bimlab.jpg', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The lab space consists of 44 4K displays that allow for three-dimensional and computer-generated views of building plans. This allows students and faculty to virtually visit building sites to make assessments, alter plans, and consider concerns like safety and maintenance..​",
+                    "The lab space consists of 44 4K displays that allow for three-dimensional and computer-generated views of building plans. This lets students and faculty virtually visit building sites to assess and adjust plans.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -3932,7 +4143,6 @@ class _BimLabScreenState extends State<BimLabScreen> {
               ],
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
             child: NavButton(context, "⬅️", const ProtoLabScreen()),
@@ -3940,6 +4150,11 @@ class _BimLabScreenState extends State<BimLabScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const AnnexLabScreen()),
+          ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/secondfloorlayout.jpg',
+            largeMapAsset: 'assets/secondfloorlayout.jpg',
+            floorName: "2nd Floor Map",
           ),
         ],
       ),
@@ -3966,7 +4181,6 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("protolab_answered");
@@ -3979,7 +4193,6 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("protolab_answered", true);
@@ -3987,18 +4200,17 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() ==
-        "2272 and electrical engineering") {
+        "2272 AND ELECTRICAL ENGINEERING") {
       setState(() {
         if (!_alreadyAnswered) {
-          SecondFloorProgress.questionsAnswered++; // Increment only once
+          SecondFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -4008,14 +4220,12 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (SecondFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -4068,6 +4278,16 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
       appBar: AppBar(
         title: const Text("Proto Lab"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: SecondFloorProgress.questionsAnswered /
+                SecondFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -4110,7 +4330,7 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
                   Image.asset('assets/protolab.jpg', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "This space is used by students to fabricate circuit boards and create device prototypes.​",
+                    "This space is used by students to fabricate circuit boards and create device prototypes.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -4124,14 +4344,18 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
               ],
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
-            child: NavButton(context, "⬇️", const BimLabScreen()),
+            child: NavButton(context, "⬅️", const BimLabScreen()),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬇️", const AnnexLabScreen()),
+          ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/secondfloorlayout.jpg',
+            largeMapAsset: 'assets/secondfloorlayout.jpg',
+            floorName: "2nd Floor Map",
           ),
         ],
       ),
@@ -4158,7 +4382,6 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("annexlab_answered");
@@ -4171,7 +4394,6 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("annexlab_answered", true);
@@ -4179,18 +4401,17 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() ==
-        "2147 and chemical engineering") {
+        "2147 AND CHEMICAL ENGINEERING") {
       setState(() {
         if (!_alreadyAnswered) {
-          SecondFloorProgress.questionsAnswered++; // Increment only once
+          SecondFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -4200,14 +4421,12 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (SecondFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -4221,20 +4440,18 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const FirstFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FirstFloorScreen()));
               },
               child: const Text("Go to 1st Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -4242,9 +4459,9 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -4260,6 +4477,16 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
       appBar: AppBar(
         title: const Text("Annex/ Drilling Fluid Lab"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: SecondFloorProgress.questionsAnswered /
+                SecondFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -4302,7 +4529,7 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
                   Image.asset('assets/drillingfluidlab.jpg', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "Petroleum engineers use many different methods and types of equipment to measure and adjust drilling fluids including mud balances, filter presses, and viscometers. This lab provides a space for students to gain hands-on experience with this type of equipment so they are well-prepared for work in the field..​",
+                    "Petroleum engineers use various methods and equipment to measure and adjust drilling fluids. This lab offers hands-on experience with such equipment.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -4316,14 +4543,18 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
               ],
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
-            child: NavButton(context, "⬇️", const DrivingSimulatorScreen()),
+            child: NavButton(context, "⬅️", const DrivingSimulatorScreen()),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: NavButton(context, "⬆️", const ProtoLabScreen()),
+            child: NavButton(context, "⬇️", const BrookshireScreen()),
+          ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/secondfloorlayout.jpg',
+            largeMapAsset: 'assets/secondfloorlayout.jpg',
+            floorName: "2nd Floor Map",
           ),
         ],
       ),
@@ -4350,7 +4581,6 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("drivingsimulator_answered");
@@ -4363,7 +4593,6 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("drivingsimulator_answered", true);
@@ -4371,18 +4600,17 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() ==
-        "2215 and civil engineering") {
+        "2215 AND CIVIL ENGINEERING") {
       setState(() {
         if (!_alreadyAnswered) {
-          SecondFloorProgress.questionsAnswered++; // Increment only once
+          SecondFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -4392,14 +4620,12 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (SecondFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -4413,20 +4639,18 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const FirstFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FirstFloorScreen()));
               },
               child: const Text("Go to 1st Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -4434,9 +4658,9 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -4450,8 +4674,18 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Driving Simulator Lab"),
+        title: const Text("Civil Engineering Driving Simulator"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: SecondFloorProgress.questionsAnswered /
+                SecondFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -4494,7 +4728,7 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
                   Image.asset('assets/drivingsimulator.jpg', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The Civil Engineering Driving Simulator Laboratory allows students and faculty to research driving behaviors and traffic..​",
+                    "The Civil Engineering Driving Simulator Laboratory allows research on driving behaviors and traffic.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -4508,14 +4742,18 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
               ],
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
-            child: NavButton(context, "⬇️", const BrookshireScreen()),
+            child: NavButton(context, "⬅️", const AnnexLabScreen()),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: NavButton(context, "⬆️", const BimLabScreen()),
+            child: NavButton(context, "⬇️", const BrookshireScreen()),
+          ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/secondfloorlayout.jpg',
+            largeMapAsset: 'assets/secondfloorlayout.jpg',
+            floorName: "2nd Floor Map",
           ),
         ],
       ),
@@ -4542,7 +4780,6 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
     _loadAnswerState();
   }
 
-  // Load answer state from SharedPreferences
   void _loadAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? answered = prefs.getBool("brookshire_answered");
@@ -4555,7 +4792,6 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
     }
   }
 
-  // Save answer state to SharedPreferences
   void _saveAnswerState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("brookshire_answered", true);
@@ -4563,18 +4799,17 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
 
   void _checkAnswer() {
     if (_answerController.text.trim().toUpperCase() ==
-        "2228 and all engineering majors") {
+        "2228 AND ALL ENGINEERING MAJORS") {
       setState(() {
         if (!_alreadyAnswered) {
-          SecondFloorProgress.questionsAnswered++; // Increment only once
+          SecondFloorProgress.questionsAnswered++;
           _alreadyAnswered = true;
-          _saveAnswerState(); // Save correct answer state
+          _saveAnswerState();
         }
         _isCorrect = true;
         _message = "Correct!";
       });
-
-      _checkCompletion(); // Check if all 11 questions are answered
+      _checkCompletion();
     } else {
       setState(() {
         _isCorrect = false;
@@ -4584,14 +4819,12 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
     }
   }
 
-  // Check if all first floor questions are completed
   void _checkCompletion() {
     if (SecondFloorProgress.isCompleted()) {
       _showCompletionDialog();
     }
   }
 
-  // Completion pop-up
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -4605,20 +4838,18 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const FirstFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FirstFloorScreen()));
               },
               child: const Text("Go to 1st Floor"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThirdFloorScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThirdFloorScreen()));
               },
               child: const Text("Go to 3rd Floor"),
             ),
@@ -4626,9 +4857,9 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
               onPressed: () {
                 FirstFloorProgress.resetProgress();
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
               child: const Text("Restart"),
             ),
@@ -4644,6 +4875,16 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
       appBar: AppBar(
         title: const Text("Brookshire Student Service Suite"),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: SecondFloorProgress.questionsAnswered /
+                SecondFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -4652,7 +4893,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "What room number is the Student Servuce Suite? What major commonly uses it?",
+                  "What room number is the Student Service Suite? What major commonly uses it?",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -4686,7 +4927,7 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
                   Image.asset('assets/brookshire.jpg', width: 300),
                   const SizedBox(height: 10),
                   const Text(
-                    "The Office of Student Services provides many resources, to help with things like changing majors, adding a minor, and verifying how course credits have transferred from other institutions..​",
+                    "The Office of Student Services provides many resources for changing majors, adding minors, and verifying course credit transfers.",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
@@ -4700,14 +4941,18 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
               ],
             ),
           ),
-          // Restore navigation arrows
           Align(
             alignment: Alignment.centerLeft,
-            child: NavButton(context, "⬇️", const DrivingSimulatorScreen()),
+            child: NavButton(context, "⬅️", const DrivingSimulatorScreen()),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: NavButton(context, "⬆️", const AnnexLabScreen()),
+          ),
+          const FloorMapButton(
+            smallMapAsset: 'assets/secondfloorlayout.jpg',
+            largeMapAsset: 'assets/secondfloorlayout.jpg',
+            floorName: "2nd Floor Map",
           ),
         ],
       ),
@@ -4717,23 +4962,11 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
 
 class SecondFloorProgress {
   static int questionsAnswered = 0;
-  static const int totalQuestions = 5; // Total screens for the third floor
-
-  static bool isCompleted() {
-    return questionsAnswered >= totalQuestions;
-  }
-
-  static void resetProgress() {
-    questionsAnswered = 0;
-    _resetStoredProgress();
-  }
-
-  static void _resetStoredProgress() async {
+  static const int totalQuestions = 5; // adjust as needed
+  static bool isCompleted() => questionsAnswered >= totalQuestions;
+  static void resetProgress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("bimlab_answered", false);
-    await prefs.setBool("protolab_answered", false);
-    await prefs.setBool("annexlab_answered", false);
-    await prefs.setBool("drivingsimulator_answered", false);
-    await prefs.setBool("brookshire_answered", false);
+    questionsAnswered = 0;
+    // Reset any second floor related prefs here.
   }
 }
