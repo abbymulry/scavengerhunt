@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';  
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -17,6 +17,66 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomeScreen(),
+    );
+  }
+}
+
+class FloorMapButton extends StatelessWidget {
+  final String smallMapAsset;
+  final String largeMapAsset;
+  final String floorName;
+
+  const FloorMapButton({
+    Key? key,
+    required this.smallMapAsset,
+    required this.largeMapAsset,
+    required this.floorName,
+  }) : super(key: key);
+
+  void _showLargeMap(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Image.asset(largeMapAsset, fit: BoxFit.contain),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 16,
+      right: 16,
+      child: GestureDetector(
+        onTap: () => _showLargeMap(context),
+        child: Column(
+          children: [
+            Image.asset(smallMapAsset, width: 60, height: 60),
+            const SizedBox(height: 4),
+            Text(
+              floorName,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -124,7 +184,6 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// First Floor Main Screen
 class FirstFloorScreen extends StatelessWidget {
   const FirstFloorScreen({super.key});
 
@@ -135,44 +194,59 @@ class FirstFloorScreen extends StatelessWidget {
         title: const Text("First Floor Main Screen"),
         backgroundColor: Colors.deepPurple,
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          // Existing content: images, buttons, etc.
+          Center(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Choose your starting point",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                // Column with navigation buttons
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Choose your starting point",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    // Buttons linking to 11 new screens
+                    buildNavButton(
+                        context, "Restaurant", const RestaurantScreen()),
+                    buildNavButton(context, "Center for Engineering Education",
+                        const CenterForEngineeringEducationScreen()),
+                    buildNavButton(
+                        context, "Auditoriums", const AuditoriumsScreen()),
+                    buildNavButton(
+                        context, "Cambre Atrium", const CambreAtriumScreen()),
+                    buildNavButton(context, "1200", const Room1200Screen()),
+                    buildNavButton(context, "1202", const Room1202Screen()),
+                    buildNavButton(context, "Sustainable Living Lab",
+                        const SustainableLivingLabScreen()),
+                    buildNavButton(context, "Zone 1100 Part 1",
+                        const Zone1100Part1Screen()),
+                    buildNavButton(context, "Zone 1100 Part 2",
+                        const Zone1100Part2Screen()),
+                    buildNavButton(
+                        context, "1220s and Bathroom", const Room1220sScreen()),
+                    buildNavButton(
+                        context, "The Commons", const CommonsScreen()),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                // Buttons linking to 11 new screens
-                buildNavButton(context, "Restaurant", const RestaurantScreen()),
-                buildNavButton(context, "Center for Engineering Education",
-                    const CenterForEngineeringEducationScreen()),
-                buildNavButton(
-                    context, "Auditoriums", const AuditoriumsScreen()),
-                buildNavButton(
-                    context, "Cambre Atrium", const CambreAtriumScreen()),
-                buildNavButton(context, "1200", const Room1200Screen()),
-                buildNavButton(context, "1202", const Room1202Screen()),
-                buildNavButton(context, "Sustainable Living Lab",
-                    const SustainableLivingLabScreen()),
-                buildNavButton(
-                    context, "Zone 1100 Part 1", const Zone1100Part1Screen()),
-                buildNavButton(
-                    context, "Zone 1100 Part 2", const Zone1100Part2Screen()),
-                buildNavButton(
-                    context, "1220s and Bathroom", const Room1220sScreen()),
-                buildNavButton(context, "The Commons", const CommonsScreen()),
+                const SizedBox(width: 50),
+                Image.asset('assets/pft1st.png', width: 700, height: 700),
               ],
             ),
-            const SizedBox(width: 50),
-            Image.asset('assets/pft1st.png', width: 700, height: 700),
-          ],
-        ),
+          ),
+          // Floor map button at the top right using "pft1st.png"
+          const FloorMapButton(
+            smallMapAsset: 'assets/pft1st.png',
+            largeMapAsset: 'assets/pft1st.png',
+            floorName: "1st Floor Map",
+          ),
+        ],
       ),
     );
   }
@@ -221,21 +295,37 @@ class SecondFloorScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Buttons linking to 11 new screens
                 buildNavButton(context, "Bim Lab", const BimLabScreen()),
-                buildNavButton(context, "ProtoLab",
-                    const ProtoLabScreen()),
-                buildNavButton(
-                    context, "Annex/ Drilling Fluid Lab", const AnnexLabScreen()),
-                buildNavButton(
-                    context, "Civil Engineering Driving Simulator", const DrivingSimulatorScreen()),
-                buildNavButton(
-                    context, "Brookshire Student Service Suite", const BrookshireScreen()),
+                buildNavButton(context, "ProtoLab", const ProtoLabScreen()),
+                buildNavButton(context, "Annex/ Drilling Fluid Lab",
+                    const AnnexLabScreen()),
+                buildNavButton(context, "Civil Engineering Driving Simulator",
+                    const DrivingSimulatorScreen()),
+                buildNavButton(context, "Brookshire Student Service Suite",
+                    const BrookshireScreen()),
               ],
             ),
             const SizedBox(width: 50),
-            Image.asset('assets/secondfloorlayout.jpg', width: 700, height: 700),
+            Image.asset('assets/secondfloorlayout.jpg',
+                width: 700, height: 700),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildNavButton(BuildContext context, String label, Widget screen) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => screen),
+          );
+        },
+        child: Text(label),
+      ),
+    );
   }
 }
 
@@ -3704,7 +3794,8 @@ class _BimLabScreenState extends State<BimLabScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "2348 and construction management") {
+    if (_answerController.text.trim().toUpperCase() ==
+        "2348 and construction management") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -3895,7 +3986,8 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "2272 and electrical engineering") {
+    if (_answerController.text.trim().toUpperCase() ==
+        "2272 and electrical engineering") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -4047,7 +4139,6 @@ class _ProtoLabScreenState extends State<ProtoLabScreen> {
   }
 }
 
-
 class AnnexLabScreen extends StatefulWidget {
   const AnnexLabScreen({super.key});
 
@@ -4087,7 +4178,8 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "2147 and chemical engineering") {
+    if (_answerController.text.trim().toUpperCase() ==
+        "2147 and chemical engineering") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -4239,7 +4331,7 @@ class _AnnexLabScreenState extends State<AnnexLabScreen> {
   }
 }
 
- class DrivingSimulatorScreen extends StatefulWidget {
+class DrivingSimulatorScreen extends StatefulWidget {
   const DrivingSimulatorScreen({super.key});
 
   @override
@@ -4278,7 +4370,8 @@ class _DrivingSimulatorScreenState extends State<DrivingSimulatorScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "2215 and civil engineering") {
+    if (_answerController.text.trim().toUpperCase() ==
+        "2215 and civil engineering") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
@@ -4469,7 +4562,8 @@ class _BrookshireScreenState extends State<BrookshireScreen> {
   }
 
   void _checkAnswer() {
-    if (_answerController.text.trim().toUpperCase() == "2228 and all engineering majors") {
+    if (_answerController.text.trim().toUpperCase() ==
+        "2228 and all engineering majors") {
       setState(() {
         if (!_alreadyAnswered) {
           SecondFloorProgress.questionsAnswered++; // Increment only once
