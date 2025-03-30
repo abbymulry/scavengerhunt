@@ -13,18 +13,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Abby and Thomas\' Tour of PFT',
       theme: ThemeData(
+        fontFamily: 'ProximaNova',
         colorScheme: ColorScheme(
-          primary: Color(0xFF461D7C),
-          onPrimary: Color(0xFFF1EEDB),
-          secondary: Color(0xFFF1EEDB),
-          onSecondary: Color(0xFF461D7C),
-          brightness: Brightness.light,
-          error: Color(0xFFA39AAC),
-          onError: Color(0xFF333333),
-          surface:Colors.white,
-          onSurface: Color(0xFF461D7C)
-
-        ),
+            primary: Color(0xFF461D7C),
+            onPrimary: Color(0xFFF1EEDB),
+            secondary: Color(0xFFF1EEDB),
+            onSecondary: Color(0xFF461D7C),
+            brightness: Brightness.light,
+            error: Color(0xFFA39AAC),
+            onError: Color(0xFF333333),
+            surface: Colors.white,
+            onSurface: Color(0xFF461D7C)),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
@@ -39,10 +38,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Abby and Thomas' Tour of PFT"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB)
-      ),
+          title: const Text("Abby and Thomas' Tour of PFT"),
+          backgroundColor: Color(0xFF461D7C),
+          foregroundColor: Color(0xFFF1EEDB)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -143,9 +141,12 @@ class FirstFloorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("First Floor Main Screen"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "First Floor Main Screen",
+          style: TextStyle(fontFamily: 'ProximaNova'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
           child: LinearProgressIndicator(
@@ -172,7 +173,10 @@ class FirstFloorScreen extends StatelessWidget {
                       const Text(
                         "Choose your starting point",
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'ProximaNova',
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 20),
@@ -233,9 +237,17 @@ class FirstFloorScreen extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-          textStyle: const TextStyle(fontSize: 18),
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontFamily: 'ProximaNova',
+          ),
         ),
-        child: Text(title),
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontFamily: 'ProximaNova',
+          ),
+        ),
       ),
     );
   }
@@ -248,7 +260,10 @@ class SecondFloorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Second Floor Main Screen"),
+        title: const Text(
+          "Second Floor Main Screen",
+          style: TextStyle(fontFamily: 'ProximaNova'),
+        ),
         backgroundColor: Color(0xFF461D7C),
         foregroundColor: Color(0xFFF1EEDB),
         bottom: PreferredSize(
@@ -277,7 +292,10 @@ class SecondFloorScreen extends StatelessWidget {
                       const Text(
                         "Choose your starting point",
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'ProximaNova',
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 20),
@@ -321,11 +339,16 @@ class SecondFloorScreen extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => screen));
+            context,
+            MaterialPageRoute(builder: (context) => screen),
+          );
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-          textStyle: const TextStyle(fontSize: 18),
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontFamily: 'ProximaNova',
+          ),
         ),
         child: Text(title),
       ),
@@ -340,9 +363,22 @@ class ThirdFloorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Third Floor Main Screen"),
+        title: const Text(
+          "Third Floor Main Screen",
+          style: TextStyle(fontFamily: 'ProximaNova'),
+        ),
         backgroundColor: Color(0xFF461D7C),
         foregroundColor: Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Center(
         child: Column(
@@ -357,7 +393,11 @@ class ThirdFloorScreen extends StatelessWidget {
               ),
               child: const Text(
                 "Welcome to the Third Floor! We are not going to make you follow this whole maze, so just find the following places!",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ProximaNova',
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -388,11 +428,16 @@ class ThirdFloorScreen extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => screen));
+            context,
+            MaterialPageRoute(builder: (context) => screen),
+          );
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-          textStyle: const TextStyle(fontSize: 18),
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontFamily: 'ProximaNova',
+          ),
         ),
         child: Text(title),
       ),
@@ -2890,7 +2935,6 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
         _isCorrect = true;
         _message = "Correct!";
       });
-
       _checkCompletion();
     } else {
       setState(() {
@@ -2937,9 +2981,22 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Alfredo Room"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "Alfredo Room",
+          style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -2950,7 +3007,11 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
                 const Text(
                   "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (!_isCorrect) ...[
@@ -2965,7 +3026,10 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: _checkAnswer,
-                    child: const Text("Submit"),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -2975,6 +3039,7 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
                     fontSize: 18,
                     color: _isCorrect ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
                   ),
                 ),
                 if (_isCorrect) ...[
@@ -2984,14 +3049,20 @@ class _AlfredoScreenState extends State<AlfredoScreen> {
                   const Text(
                     "Congratulations you found the Alfredo room. Select the back button to go back to the main third floor screen.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'ProximaNovaBlack',
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
                 Text(
                   "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
               ],
             ),
@@ -3053,7 +3124,6 @@ class _CEEScreenState extends State<CEEScreen> {
         _isCorrect = true;
         _message = "Correct!";
       });
-
       _checkCompletion();
     } else {
       setState(() {
@@ -3076,9 +3146,14 @@ class _CEEScreenState extends State<CEEScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Third Floor Completed! 🎉"),
+          title: const Text(
+            "Third Floor Completed! 🎉",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           content: const Text(
-              "You've completed all the questions for the Third Floor!"),
+            "You've completed all the questions for the Third Floor!",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -3088,7 +3163,10 @@ class _CEEScreenState extends State<CEEScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
-              child: const Text("Restart"),
+              child: const Text(
+                "Restart",
+                style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+              ),
             ),
           ],
         );
@@ -3100,9 +3178,22 @@ class _CEEScreenState extends State<CEEScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Civil & Environmental Engineering"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "Civil & Environmental Engineering",
+          style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -3113,7 +3204,11 @@ class _CEEScreenState extends State<CEEScreen> {
                 const Text(
                   "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (!_isCorrect) ...[
@@ -3128,7 +3223,10 @@ class _CEEScreenState extends State<CEEScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: _checkAnswer,
-                    child: const Text("Submit"),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -3138,6 +3236,7 @@ class _CEEScreenState extends State<CEEScreen> {
                     fontSize: 18,
                     color: _isCorrect ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
                   ),
                 ),
                 if (_isCorrect) ...[
@@ -3147,14 +3246,20 @@ class _CEEScreenState extends State<CEEScreen> {
                   const Text(
                     "The Department of Civil and Environmental Engineering (CEE) at Louisiana State University (LSU) offers undergraduate and graduate programs focused on structural, geotechnical, environmental, transportation, and water resources engineering. The department is known for its research in coastal sustainability, disaster resilience, and infrastructure innovation, benefiting from LSU’s proximity to the Mississippi River and Gulf Coast. CEE students gain hands-on experience through state-of-the-art labs, industry partnerships, and projects addressing real-world engineering challenges.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'ProximaNovaBlack',
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
                 Text(
                   "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
               ],
             ),
@@ -3239,9 +3344,14 @@ class _MIEScreenState extends State<MIEScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Third Floor Completed! 🎉"),
+          title: const Text(
+            "Third Floor Completed! 🎉",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           content: const Text(
-              "You've completed all the questions for the Third Floor!"),
+            "You've completed all the questions for the Third Floor!",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -3251,7 +3361,10 @@ class _MIEScreenState extends State<MIEScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
-              child: const Text("Restart"),
+              child: const Text(
+                "Restart",
+                style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+              ),
             ),
           ],
         );
@@ -3263,9 +3376,22 @@ class _MIEScreenState extends State<MIEScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Mechanical & Industrial Engineering"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "Mechanical & Industrial Engineering",
+          style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -3276,7 +3402,11 @@ class _MIEScreenState extends State<MIEScreen> {
                 const Text(
                   "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (!_isCorrect) ...[
@@ -3291,7 +3421,10 @@ class _MIEScreenState extends State<MIEScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: _checkAnswer,
-                    child: const Text("Submit"),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -3301,6 +3434,7 @@ class _MIEScreenState extends State<MIEScreen> {
                     fontSize: 18,
                     color: _isCorrect ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
                   ),
                 ),
                 if (_isCorrect) ...[
@@ -3310,14 +3444,20 @@ class _MIEScreenState extends State<MIEScreen> {
                   const Text(
                     "The Department of Mechanical & Industrial Engineering (MIE) at Louisiana State University (LSU) offers programs in mechanical engineering, industrial engineering, and petroleum engineering. The department emphasizes hands-on learning, research, and industry collaboration in areas such as manufacturing, robotics, energy systems, and supply chain optimization. MIE students benefit from advanced labs, internship opportunities, and strong connections with industry leaders to prepare for careers in engineering and technology.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'ProximaNovaBlack',
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
                 Text(
                   "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
               ],
             ),
@@ -3402,9 +3542,14 @@ class _CMScreenState extends State<CMScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Third Floor Completed! 🎉"),
+          title: const Text(
+            "Third Floor Completed! 🎉",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           content: const Text(
-              "You've completed all the questions for the Third Floor!"),
+            "You've completed all the questions for the Third Floor!",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -3414,7 +3559,10 @@ class _CMScreenState extends State<CMScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
-              child: const Text("Restart"),
+              child: const Text(
+                "Restart",
+                style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+              ),
             ),
           ],
         );
@@ -3426,9 +3574,22 @@ class _CMScreenState extends State<CMScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Construction Management"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "Construction Management",
+          style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -3439,7 +3600,11 @@ class _CMScreenState extends State<CMScreen> {
                 const Text(
                   "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (!_isCorrect) ...[
@@ -3454,7 +3619,10 @@ class _CMScreenState extends State<CMScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: _checkAnswer,
-                    child: const Text("Submit"),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -3464,6 +3632,7 @@ class _CMScreenState extends State<CMScreen> {
                     fontSize: 18,
                     color: _isCorrect ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
                   ),
                 ),
                 if (_isCorrect) ...[
@@ -3473,14 +3642,20 @@ class _CMScreenState extends State<CMScreen> {
                   const Text(
                     "The Construction Management (CM) Department at Louisiana State University (LSU) prepares students for leadership roles in the construction industry by combining engineering, business, and project management principles. The program emphasizes hands-on experience, technological innovation, and sustainable building practices. With strong industry connections, state-of-the-art labs, and internship opportunities, CM graduates are well-equipped for careers in construction, project management, and infrastructure development.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'ProximaNovaBlack',
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
                 Text(
                   "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
               ],
             ),
@@ -3565,9 +3740,14 @@ class _EECSScreenState extends State<EECSScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Third Floor Completed! 🎉"),
+          title: const Text(
+            "Third Floor Completed! 🎉",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           content: const Text(
-              "You've completed all the questions for the Third Floor!"),
+            "You've completed all the questions for the Third Floor!",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -3577,7 +3757,10 @@ class _EECSScreenState extends State<EECSScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
-              child: const Text("Restart"),
+              child: const Text(
+                "Restart",
+                style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+              ),
             ),
           ],
         );
@@ -3589,9 +3772,22 @@ class _EECSScreenState extends State<EECSScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Electrical Engineering & Computer Science"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "Electrical Engineering & Computer Science",
+          style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -3602,7 +3798,11 @@ class _EECSScreenState extends State<EECSScreen> {
                 const Text(
                   "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (!_isCorrect) ...[
@@ -3617,7 +3817,10 @@ class _EECSScreenState extends State<EECSScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: _checkAnswer,
-                    child: const Text("Submit"),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -3627,6 +3830,7 @@ class _EECSScreenState extends State<EECSScreen> {
                     fontSize: 18,
                     color: _isCorrect ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
                   ),
                 ),
                 if (_isCorrect) ...[
@@ -3636,14 +3840,20 @@ class _EECSScreenState extends State<EECSScreen> {
                   const Text(
                     "The Division of Electrical Engineering & Computer Science (EECS) at Louisiana State University (LSU) offers cutting-edge programs in electrical engineering, computer engineering, and computer science. The division focuses on areas such as artificial intelligence, cybersecurity, embedded systems, power systems, and telecommunications. With advanced research facilities, industry partnerships, and hands-on learning opportunities, EECS prepares students for careers in rapidly evolving technological fields.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'ProximaNovaBlack',
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
                 Text(
                   "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
               ],
             ),
@@ -3728,9 +3938,14 @@ class _ChEScreenState extends State<ChEScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Third Floor Completed! 🎉"),
+          title: const Text(
+            "Third Floor Completed! 🎉",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           content: const Text(
-              "You've completed all the questions for the Third Floor!"),
+            "You've completed all the questions for the Third Floor!",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -3740,7 +3955,10 @@ class _ChEScreenState extends State<ChEScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
-              child: const Text("Restart"),
+              child: const Text(
+                "Restart",
+                style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+              ),
             ),
           ],
         );
@@ -3752,9 +3970,22 @@ class _ChEScreenState extends State<ChEScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Chemical Engineering"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "Chemical Engineering",
+          style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -3765,7 +3996,11 @@ class _ChEScreenState extends State<ChEScreen> {
                 const Text(
                   "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (!_isCorrect) ...[
@@ -3780,7 +4015,10 @@ class _ChEScreenState extends State<ChEScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: _checkAnswer,
-                    child: const Text("Submit"),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -3790,6 +4028,7 @@ class _ChEScreenState extends State<ChEScreen> {
                     fontSize: 18,
                     color: _isCorrect ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
                   ),
                 ),
                 if (_isCorrect) ...[
@@ -3799,14 +4038,20 @@ class _ChEScreenState extends State<ChEScreen> {
                   const Text(
                     "The Cain Department of Chemical Engineering (ChE) at Louisiana State University (LSU) provides a strong foundation in chemical processes, materials science, and energy production. The program emphasizes hands-on research, sustainability, and industrial applications, preparing students for careers in petrochemicals, pharmaceuticals, biotechnology, and environmental engineering. With state-of-the-art labs and strong industry ties, LSU ChE graduates are well-equipped to tackle real-world engineering challenges.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'ProximaNovaBlack',
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
                 Text(
                   "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
               ],
             ),
@@ -3891,9 +4136,14 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Third Floor Completed! 🎉"),
+          title: const Text(
+            "Third Floor Completed! 🎉",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           content: const Text(
-              "You've completed all the questions for the Third Floor!"),
+            "You've completed all the questions for the Third Floor!",
+            style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -3903,7 +4153,10 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
-              child: const Text("Restart"),
+              child: const Text(
+                "Restart",
+                style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+              ),
             ),
           ],
         );
@@ -3915,9 +4168,22 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Elevators"),
-        backgroundColor: Color(0xFF461D7C),
-        foregroundColor: Color(0xFFF1EEDB),
+        title: const Text(
+          "Elevators",
+          style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+        ),
+        backgroundColor: const Color(0xFF461D7C),
+        foregroundColor: const Color(0xFFF1EEDB),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6),
+          child: LinearProgressIndicator(
+            value: ThirdFloorProgress.questionsAnswered /
+                ThirdFloorProgress.totalQuestions,
+            backgroundColor: Colors.white,
+            color: Colors.green,
+            minHeight: 6,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -3928,7 +4194,11 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
                 const Text(
                   "I am sure you are tired at this point. So just be honest, did you visit this area?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (!_isCorrect) ...[
@@ -3943,7 +4213,10 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: _checkAnswer,
-                    child: const Text("Submit"),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontFamily: 'ProximaNovaBlack'),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
@@ -3953,6 +4226,7 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
                     fontSize: 18,
                     color: _isCorrect ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
                   ),
                 ),
                 if (_isCorrect) ...[
@@ -3962,14 +4236,20 @@ class _ElevatorsScreenState extends State<ElevatorsScreen> {
                   const Text(
                     "You found the elevators! You can leave now!",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'ProximaNovaBlack',
+                    ),
                   ),
                 ],
                 const SizedBox(height: 20),
                 Text(
                   "Third Floor Questions Answered: ${ThirdFloorProgress.questionsAnswered}",
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProximaNovaBlack',
+                  ),
                 ),
               ],
             ),
