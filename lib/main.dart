@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Abby and Thomas' Tour of PFT"),
+          title: Image.asset('assets/logo.png', width: 100, height: 100),
           backgroundColor: Color(0xFF461D7C),
           foregroundColor: Color(0xFFF1EEDB)),
       body: Center(

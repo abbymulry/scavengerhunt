@@ -83,6 +83,7 @@ flutter:
     - assets/secondfloorlayout.jpg
     - assets/bimlab.jpg
     - assets/brookshire.jpg
+    - assets/logo.png
 
   uses-material-design: true
 
