@@ -36,137 +36,164 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions
+    double screenWidth = MediaQuery.of(context).size.width;
+    // Responsive sizes – adjust these fractions as needed
+    double imageSize = screenWidth * 0.3; // Each image ~30% of screen width
+    double horizontalPadding = screenWidth * 0.05;
+    double verticalSpacing = screenWidth * 0.03;
+    double logoSize = screenWidth * 0.2; // Logo scales with screen width
+
     return MainScaffold(
       currentIndex: 0,
       body: Scaffold(
         appBar: AppBar(
-          title: Image.asset('assets/logo.png', width: 100, height: 100),
+          title: Image.asset(
+            'assets/logo.png',
+            width: logoSize,
+            height: logoSize,
+          ),
           backgroundColor: const Color(0xFF461D7C),
           foregroundColor: const Color(0xFFF1EEDB),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Welcome Message
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Column(
+              children: [
+                SizedBox(height: verticalSpacing),
+                // Welcome Message
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text(
+                    "Welcome to the GREATEST Patrick F. Taylor Hall self-guided tour of all time",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProximaNova',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                child: const Text(
-                  "Welcome to the GREATEST Patrick F. Taylor Hall self-guided tour of all time",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'ProximaNova',
-                  ),
-                  textAlign: TextAlign.center,
+                SizedBox(height: verticalSpacing * 2),
+                // Top row with two images
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      'assets/pft.png',
+                      width: imageSize,
+                      height: imageSize,
+                      fit: BoxFit.cover,
+                    ),
+                    Image.asset(
+                      'assets/pft2.png',
+                      width: imageSize,
+                      height: imageSize,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 30),
-
-              // Row layout
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Left images
-                  Column(
-                    children: [
-                      Image.asset('assets/pft.png', width: 300, height: 300),
-                      const SizedBox(height: 15),
-                      Image.asset('assets/pft1.png', width: 300, height: 300),
-                    ],
-                  ),
-
-                  const SizedBox(width: 100),
-
-                  // Buttons
-                  Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const FirstFloorScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 15),
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'ProximaNova',
-                          ),
-                        ),
-                        child: const Text(
-                          "Explore the first floor",
-                          style: TextStyle(fontFamily: 'ProximaNova'),
+                SizedBox(height: verticalSpacing),
+                // Middle row with navigation buttons
+                Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FirstFloorScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
+                            vertical: verticalSpacing),
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'ProximaNova',
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const SecondFloorScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 15),
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'ProximaNova',
-                          ),
-                        ),
-                        child: const Text(
-                          "Explore the second floor",
-                          style: TextStyle(fontFamily: 'ProximaNova'),
+                      child: const Text(
+                        "Explore the first floor",
+                        style: TextStyle(fontFamily: 'ProximaNova'),
+                      ),
+                    ),
+                    SizedBox(height: verticalSpacing),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SecondFloorScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
+                            vertical: verticalSpacing),
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'ProximaNova',
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ThirdFloorScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 15),
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'ProximaNova',
-                          ),
-                        ),
-                        child: const Text(
-                          "Explore the third floor",
-                          style: TextStyle(fontFamily: 'ProximaNova'),
+                      child: const Text(
+                        "Explore the second floor",
+                        style: TextStyle(fontFamily: 'ProximaNova'),
+                      ),
+                    ),
+                    SizedBox(height: verticalSpacing),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ThirdFloorScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
+                            vertical: verticalSpacing),
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'ProximaNova',
                         ),
                       ),
-                    ],
-                  ),
-
-                  const SizedBox(width: 30),
-
-                  // Right images
-                  Column(
-                    children: [
-                      Image.asset('assets/pft2.png', width: 300, height: 300),
-                      const SizedBox(height: 15),
-                      Image.asset('assets/pft3.png', width: 300, height: 300),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                      child: const Text(
+                        "Explore the third floor",
+                        style: TextStyle(fontFamily: 'ProximaNova'),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: verticalSpacing),
+                // Bottom row with two images
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      'assets/pft1.png',
+                      width: imageSize,
+                      height: imageSize,
+                      fit: BoxFit.cover,
+                    ),
+                    Image.asset(
+                      'assets/pft3.png',
+                      width: imageSize,
+                      height: imageSize,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
+                SizedBox(height: verticalSpacing * 2),
+              ],
+            ),
           ),
         ),
       ),
@@ -179,6 +206,13 @@ class FirstFloorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive sizing.
+    double screenWidth = MediaQuery.of(context).size.width;
+    // Adjust these values as needed:
+    double fontSize = screenWidth * 0.04; // e.g., 4% of screen width
+    double horizontalPadding = screenWidth * 0.03;
+    double verticalPadding = screenWidth * 0.02;
+
     return MainScaffold(
       currentIndex: 1, // First floor tab
       body: Scaffold(
@@ -200,123 +234,123 @@ class FirstFloorScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Stack(
-          children: [
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Choose your starting point",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'ProximaNova',
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        buildNavButton(
-                            context, "Restaurant", const RestaurantScreen()),
-                        buildNavButton(
-                            context,
-                            "Center for Engineering Education",
-                            const CenterForEngineeringEducationScreen()),
-                        buildNavButton(
-                            context, "Auditoriums", const AuditoriumsScreen()),
-                        buildNavButton(context, "Cambre Atrium",
-                            const CambreAtriumScreen()),
-                        buildNavButton(context, "1200", const Room1200Screen()),
-                        buildNavButton(context, "1202", const Room1202Screen()),
-                        buildNavButton(context, "Sustainable Living Lab",
-                            const SustainableLivingLabScreen()),
-                        buildNavButton(context, "Zone 1100 Part 1",
-                            const Zone1100Part1Screen()),
-                        buildNavButton(context, "Zone 1100 Part 2",
-                            const Zone1100Part2Screen()),
-                        buildNavButton(context, "1220s and Bathroom",
-                            const Room1220sScreen()),
-                        buildNavButton(
-                            context, "The Commons", const CommonsScreen()),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Flexible(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/pft1st.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ],
-              ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(horizontalPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Top: Floor Map image
+                Image.asset(
+                  'assets/pft1st.png',
+                  width: screenWidth,
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(height: 12),
+                // Buttons wrapped into rows
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    buildNavButton(
+                        context,
+                        "Restaurant",
+                        const RestaurantScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Center for Engineering Education",
+                        const CenterForEngineeringEducationScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Auditoriums",
+                        const AuditoriumsScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Cambre Atrium",
+                        const CambreAtriumScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(context, "1200", const Room1200Screen(),
+                        fontSize, horizontalPadding, verticalPadding),
+                    buildNavButton(context, "1202", const Room1202Screen(),
+                        fontSize, horizontalPadding, verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Sustainable Living Lab",
+                        const SustainableLivingLabScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Zone 1100 Part 1",
+                        const Zone1100Part1Screen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Zone 1100 Part 2",
+                        const Zone1100Part2Screen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "1220s and Bathroom",
+                        const Room1220sScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "The Commons",
+                        const CommonsScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                  ],
+                ),
+                const SizedBox(height: 12),
+              ],
             ),
-            const FloorMapButton(
-              smallMapAsset: 'assets/pft1st.png',
-              largeMapAsset: 'assets/pft1st.png',
-              floorName: "First Floor Map",
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget buildNavButton(BuildContext context, String title, Widget screen) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => screen));
-        },
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-          textStyle: const TextStyle(
-            fontSize: 18,
-            fontFamily: 'ProximaNova',
-          ),
-        ),
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontFamily: 'ProximaNova',
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-Widget buildNavButton(BuildContext context, String title, Widget screen) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5),
-    child: ElevatedButton(
+  Widget buildNavButton(BuildContext context, String title, Widget screen,
+      double fontSize, double horizontalPadding, double verticalPadding) {
+    return ElevatedButton(
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => screen));
+          context,
+          MaterialPageRoute(builder: (context) => screen),
+        );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontFamily: 'ProximaNova',
-        ),
+        padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding, vertical: verticalPadding),
+        textStyle: TextStyle(fontSize: fontSize, fontFamily: 'ProximaNova'),
       ),
       child: Text(
         title,
-        style: const TextStyle(
-          fontFamily: 'ProximaNova',
-        ),
+        style: const TextStyle(fontFamily: 'ProximaNova'),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class SecondFloorScreen extends StatelessWidget {
@@ -324,6 +358,13 @@ class SecondFloorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen width for responsive sizing.
+    double screenWidth = MediaQuery.of(context).size.width;
+    // Adjust the font size and paddings as needed.
+    double fontSize = screenWidth * 0.04; // 4% of screen width
+    double horizontalPadding = screenWidth * 0.03;
+    double verticalPadding = screenWidth * 0.02;
+
     return MainScaffold(
       currentIndex: 2,
       body: Scaffold(
@@ -345,80 +386,85 @@ class SecondFloorScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Stack(
-          children: [
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Choose your starting point",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'ProximaNova',
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        buildNavButton(
-                            context, "BIM Lab", const BimLabScreen()),
-                        buildNavButton(
-                            context, "Proto Lab", const ProtoLabScreen()),
-                        buildNavButton(context, "Annex/Drilling Fluids Lab",
-                            const AnnexLabScreen()),
-                        buildNavButton(context, "Driving Simulator",
-                            const DrivingSimulatorScreen()),
-                        buildNavButton(context, "Brookshire Suite",
-                            const BrookshireScreen()),
-                      ],
-                    ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(horizontalPadding),
+            child: Column(
+              children: [
+                // Top: Bigger Floor map image in a container with a fixed height.
+                Container(
+                  width: screenWidth,
+                  height: screenWidth * 0.7, // Adjust this factor as needed
+                  child: Image.asset(
+                    'assets/secondfloorlayout.jpg',
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(width: 20),
-                  Flexible(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/secondfloorlayout.jpg',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 12),
+                // Buttons wrapped into rows using Wrap widget.
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    buildNavButton(context, "BIM Lab", const BimLabScreen(),
+                        fontSize, horizontalPadding, verticalPadding),
+                    buildNavButton(context, "Proto Lab", const ProtoLabScreen(),
+                        fontSize, horizontalPadding, verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Annex/Drilling Fluids Lab",
+                        const AnnexLabScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Driving Simulator",
+                        const DrivingSimulatorScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                    buildNavButton(
+                        context,
+                        "Brookshire Suite",
+                        const BrookshireScreen(),
+                        fontSize,
+                        horizontalPadding,
+                        verticalPadding),
+                  ],
+                ),
+                const SizedBox(height: 12),
+              ],
             ),
-            const FloorMapButton(
-              smallMapAsset: 'assets/secondfloorlayout.jpg',
-              largeMapAsset: 'assets/secondfloorlayout.jpg',
-              floorName: "2nd Floor Map",
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget buildNavButton(BuildContext context, String title, Widget screen) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => screen),
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-          textStyle: const TextStyle(
-            fontSize: 18,
-            fontFamily: 'ProximaNova',
-          ),
+  Widget buildNavButton(BuildContext context, String title, Widget screen,
+      double fontSize, double horizontalPadding, double verticalPadding) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => screen),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: verticalPadding,
         ),
-        child: Text(title),
+        textStyle: TextStyle(
+          fontSize: fontSize,
+          fontFamily: 'ProximaNova',
+        ),
+      ),
+      child: Text(
+        title,
+        style: const TextStyle(fontFamily: 'ProximaNova'),
       ),
     );
   }
